@@ -1,0 +1,134 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[polish]{babel}
+\usepackage{hyperref}
+\usepackage[paper=a4paper,margin=1in]{geometry}
+\usepackage{tabularx} 
+\usepackage{helvet}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usepackage{listings,xcolor}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\newtheorem{theorem}{Twierdzenie}
+\newtheorem{lemma}{Lemat}
+\newtheorem{conculsion}{Wniosek}
+
+\begin{document}
+	\begin{titlepage}
+		\newgeometry{top=1in,bottom=1in,right=1.5in,left=1.5in}
+		\begin{center}
+			{\fontsize{14}{12}\selectfont Wydział Matematyki i Nauk Informacyjnych Politechniki Warszawskiej}
+			
+		\end{center}
+		
+		\vspace{1cm}
+		\begin{center}
+			\includegraphics[width=0.3\textwidth]{images/logo.png}
+		\end{center}
+		\vspace{3cm}
+		
+		\begin{center}
+			\textbf{{\fontsize{26}{12}\selectfont Algorytmy Zaawansowane}}
+			
+			\vspace{2cm}
+			\textbf{{\fontsize{22}{12}\selectfont Dokumentacja wstępna}}
+			\vspace{1cm}
+			
+			\textbf{{\fontsize{13.5}{12}\selectfont Piotr Piwowarski, Mateusz Rymuszka}}
+			
+			\vspace{6cm}
+			\textbf{{\fontsize{13.5}{12}\selectfont \today}}
+		\end{center}  
+	\end{titlepage}
+	
+	{\fontsize{13.5}{12}\selectfont
+		\tableofcontents
+		\vspace{1cm}
+		{\renewcommand{\arraystretch}{2.0}
+			
+			\begin{tabularx}{\textwidth}{|l|l|X|l|}
+				\hline 
+				Data & Autor & Opis zmian & Wersja\\
+				\hline
+				10.03.2018 & Mateusz Rymuszka & Pierwsza wersja dokumentu & 1.0 \\
+				\hline
+				11.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.1 \\
+				\hline
+			\end{tabularx} 
+	}}
+	
+	\newpage
+	
+	\section{Słownik pojęć}
+	
+	W niniejszej dokumentacji wykorzystane są poniższe pojęcia:
+	\begin{enumerate}
+		\item \textbf{piłeczka} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{B}$;
+		\item \textbf{dołek} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{H}$;
+		\item \textbf{uderzenie} - odcinek łączący piłeczkę i dołek ze zbioru $\mathbb{S}$;
+	\end{enumerate}
+	
+	\section{Problem}
+	
+	\textbf{Temat projektu: GOLF} \\~\\
+	Na polu golfowym znajduje się $n$ piłeczek oraz $n$ dołków na piłeczki. Golfiści chcą jednocześnie umieścić każdy swoją piłeczkę w którymś z dołków. W tym celu ustalają między sobą, który celuje do którego dołka, ale w taki sposób, by tory ich	piłeczek się nie przecinały, co gwarantuje brak zderzeń piłeczek.\\~\\ 
+	Załóżmy, że piłeczki i dołki są punktami na płaszczyźnie oraz żadne trzy z tych punktów nie są współliniowe, a tory piłeczek są odcinkami prostej. Przedstaw działający w czasie $O(n^2\log n)$ algorytm przydzielania piłeczek do dołków tak, aby żadne dwa tory piłeczek się nie przecinały.\\~\\
+	\textit{Wskazówka:} W czasie $O(n\log n)$ można znaleźć prostą przechodzącą przez jedną piłeczkę i jeden dołek taką, że liczby piłeczek i dołków po tej samej stronie tej prostej są równe.
+	
+	\section{Zadanie oraz jego rozmiar}
+	
+	\subsection{Zadanie}
+	Dwa zbiory $B$ oraz $H$ różnych, trójkami niewspółliniowych punktów o liczności $n$ każdy z przestrzeni $\mathbb{R}^{2}$ (reprezentujących odpowiednio położenia piłeczek oraz położenia dołków).
+	
+	\subsection{Rozmiar zadania}
+	
+	Całkowita liczba punktów wynosi $2n$. Biorąc jednak pod uwagę fakt, że rozpatrujemy pary piłka - dołek oraz prostotę dalszej analizy możemy przyjąć. że rozmiar zadania nie zależy od stałej i wynosi $n$.
+	
+	\section{Sposób rozwiązania}
+	
+	\subsection{Opis}
+	
+	Algorytm bazuje na strategii dziel i zwyciężaj. Dla zadanego zbioru wyszukujemy uderzenie $S$, po którego lewej lub prawej stronie (nie ma to znaczenia ze względu na równoliczność zbiorów $\mathbb{B}$ oraz $\mathbb{H}$) znajduje się dokładnie tyle samo piłeczek, co dołków. Następnie wywołujemy ten algorytm osobno dla piłeczek i dołków znajdujących się po lewej stronie, a osobno po prawej. Wywołując ten algorytm dla jednej piłeczki i jednego dołka, zwracamy natychmiast uderzenie składające się z tej piłeczki i tego dołka. Wszystkie znalezione przez ten algorytm uderzenia tworzą rozwiązanie zadania. \\~\\
+	Aby znaleźć uderzenie $S$, po którego jednej ze stron znajduje się dokładnie tyle samo piłeczek, co dołków, zastosujemy algorytm podobny w budowie do algorytmu Grahama znajdowania otoczki wypukłej punktów w przestrzeni dwuwymiarowej. Wyszukujemy punkt o najmniejszej współrzędnej rzędnej (jeżeli jest ich kilka, to wybieramy ten o najmniejszej współrzędnej odciętej) $O$ i przesuwamy początek układu współrzędnych do tego punktu. Następnie sortujemy pozostałe punkty po kącie między wektorem od początku układu do tego punktu a osią $OX$ (ponieważ dowolne trzy punkty z obu zbiorów nie są współliniowe, to każdy punkt będzie miał inną wartość tego kąta). \\
+	Każdemu punktowi, w zależności od tego, czy jest piłeczką czy dołkiem, przyporządkowana jest wartość liczbowa: dla piłeczki jest to $1$, zaś dla dołka $-1$. Inicjalizujemy zmienną pomocniczą wartością dla punktu $O$ i następnie przechodzimy po posortowanej liście punktów, dodając do tej zmiennej wartość aktualnego punktu. W momencie, gdy zmienna pomocnicza osiągnie wartość $0$, algorytm kończy działanie, a ostatnio rozpatrywany punkt tworzy z punktem $O$ uderzenie, które spełnia wspomniany warunek.
+	
+	\subsection{Pseudokod}
+	
+	\section{Rozwiązanie przykładowego zadania}
+	
+	\section{Format danych wejściowych oraz format wyjścia}
+	
+	\subsection{Wejście}
+	
+	Plik wejściowy posiada następujące informacje:
+	\begin{itemize}
+		\item liczbę piłeczek lub liczbę dołków, czyli $n$ w pierwszej linii;
+		\item współrzędne piłeczek rozdzielone przecinkami, każda piłeczka jest opisana w nowej linii;
+		\item współrzędne dołków rozdzielone przecinkami, każdy dołek jest opisany w nowej linii;
+	\end{itemize}
+
+	\textbf{Przykład:} 
+	
+	\subsection{Wyjście}
+	
+	Plik wyjściowy posiada następujące informacje:
+	\begin{itemize}
+		\item indeks piłeczki w pliku wejściowym oraz indeks dołka w pliku wejściowym, które tworzą uderzenie, rozdzielone spacją; każde uderzenie jest opisane w nowej linii;
+	\end{itemize}
+	
+	\textbf{Przykład:} 
+	
+	\section{Dowód poprawności rozwiązania}
+	
+	%Jeżeli uda nam się znaleźć takie uderzenie $S$, po którego lewej (a zarazem prawej) stronie znajduje się tyle samo piłeczek, co dołków, możemy podzielić te zadanie na dwa podzadania. Znajdując dopasowania piłeczek do dołków znajdujących się po lewej (lub prawej) stronie uderzeniu $S$, nie mamy szans na jego przecięcie. Jednocześnie, zadanie znalezienia dopasowania piłeczek do dołków po lewej stronie nadal należy do zbioru zadań zadanego problemu (gdyż liczba rozpatrywanych dołków i piłeczek jest taka sama).
+	
+	\section{Złożoność}
+	
+\end{document}
