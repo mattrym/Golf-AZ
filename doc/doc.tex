@@ -69,11 +69,11 @@
 	\section{Słownik pojęć}
 	
 	W niniejszej dokumentacji wykorzystane są poniższe pojęcia:
-	\begin{enumerate}
+	\begin{itemize}
 		\item \textbf{piłeczka} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{B}$;
 		\item \textbf{dołek} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{H}$;
 		\item \textbf{uderzenie} - odcinek łączący piłeczkę i dołek ze zbioru $\mathbb{S}$;
-	\end{enumerate}
+	\end{itemize}
 	
 	\section{Problem}
 	
@@ -100,6 +100,42 @@
 	Każdemu punktowi, w zależności od tego, czy jest piłeczką czy dołkiem, przyporządkowana jest wartość liczbowa: dla piłeczki jest to $1$, zaś dla dołka $-1$. Inicjalizujemy zmienną pomocniczą wartością dla punktu $O$ i następnie przechodzimy po posortowanej liście punktów, dodając do tej zmiennej wartość aktualnego punktu. W momencie, gdy zmienna pomocnicza osiągnie wartość $0$, algorytm kończy działanie, a ostatnio rozpatrywany punkt tworzy z punktem $O$ uderzenie, które spełnia wspomniany warunek.
 	
 	\subsection{Pseudokod}
+	
+	\subsubsection{Pseudokod ogólnego algorytmu}
+	
+	\begin{algorithmic}
+		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
+		
+		\State $p_{1}(P_{1}, P_{2}) \coloneqq \begin{cases} P_{1}, \qquad 
+		y_{P_{1}} < y_{P_{2}} \vee x_{P_{1}} \leq x_{P_{2}} \\ P_{2}, \qquad \text{w przeciwnym wypadku}\end{cases} $ 
+		\State $p_{2}(P_{1}, P_{2}) \coloneqq \begin{cases} P_{1}, \qquad 
+		y_{P_{1}} < y_{P_{2}} \vee x_{P_{1}} \leq x_{P_{2}} \\ P_{1}, \qquad \text{w przeciwnym wypadku}\end{cases} $ 
+		\\
+		\Function {FindDividingShot}{$\mathbf{B}$, $\mathbf{H}$}
+		\State $O \coloneqq \min\limits_{\overline{\leq}}(\mathbf{B} \cup \mathbf{H})$
+		\If {$O \in \mathbf{B}$}
+		\State $sum \coloneqq 1$
+		\Else
+		\State $sum \coloneqq -1$
+		\EndIf \\
+		\State Niech $c'_a(u, v) = c_a(u, v) + f_l(u, v) - f_l(v, u)$ będzie przepustowością w sieci rezydualnej
+		\If{istnieje $ v \in V \setminus \lbrace s, t \rbrace$ i $w \in V$ taki, że $e_f(v) > 0$, $h(v) > h(w)$ i $c'_a(v, w) > 0$}
+		\State Przepchnij $min \lbrace c'_a(v, w)$, $e_f(v)\rbrace$ jednostek przepływu przez krawędź $(v, w)$
+		\If {$v \in V_W$ \textbf{and} $w \in V_C$}
+		\State a[$v - 1$] $\coloneqq w - 1 - |W|$
+		\EndIf
+		\If {$v \in V_C$ \textbf{and} $w \in V_W$}
+		\State a[$w - 1$] $\coloneqq -1$
+		\EndIf
+		\Else 
+		\ForAll{$v \in V$, $e_f(v) > 0$}
+		$h[v] \coloneqq h[v] + 1$
+		\EndFor
+		\EndIf
+		\State
+		\Return $f_l$
+		\EndFunction
+	\end{algorithmic}
 	
 	\section{Rozwiązanie przykładowego zadania}
 	
