@@ -15,6 +15,7 @@
 \usepackage{tkz-graph}
 \usepackage{listings,xcolor}
 \renewcommand{\familydefault}{\sfdefault}
+\algnewcommand\Break{\textbf{break}}
 \setlength{\parindent}{0pt}
 \newtheorem{theorem}{Twierdzenie}
 \newtheorem{lemma}{Lemat}
@@ -61,6 +62,8 @@
 				\hline
 				11.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.1 \\
 				\hline
+				15.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.2 \\
+				\hline
 			\end{tabularx} 
 	}}
 	
@@ -106,34 +109,42 @@
 	\begin{algorithmic}
 		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
 		
-		\State $p_{1}(P_{1}, P_{2}) \coloneqq \begin{cases} P_{1}, \qquad 
-		y_{P_{1}} < y_{P_{2}} \vee x_{P_{1}} \leq x_{P_{2}} \\ P_{2}, \qquad \text{w przeciwnym wypadku}\end{cases} $ 
-		\State $p_{2}(P_{1}, P_{2}) \coloneqq \begin{cases} P_{1}, \qquad 
-		y_{P_{1}} < y_{P_{2}} \vee x_{P_{1}} \leq x_{P_{2}} \\ P_{1}, \qquad \text{w przeciwnym wypadku}\end{cases} $ 
+		\Function {FindPlanarMatching}{$\mathbf{B}$, $\mathbf{H}$}
+		\If{$|\mathbf{B}| = |\mathbf{H}| = 1$}
+			\State $B \coloneqq $ punkt z $\mathbf{B}$
+			\State $H \coloneqq $ punkt z $\mathbf{H}$
+			\State \Return $\left\{BH\right\}$ 
+		\EndIf
 		\\
-		\Function {FindDividingShot}{$\mathbf{B}$, $\mathbf{H}$}
-		\State $O \coloneqq \min\limits_{\overline{\leq}}(\mathbf{B} \cup \mathbf{H})$
-		\If {$O \in \mathbf{B}$}
-		\State $sum \coloneqq 1$
-		\Else
-		\State $sum \coloneqq -1$
-		\EndIf \\
-		\State Niech $c'_a(u, v) = c_a(u, v) + f_l(u, v) - f_l(v, u)$ będzie przepustowością w sieci rezydualnej
-		\If{istnieje $ v \in V \setminus \lbrace s, t \rbrace$ i $w \in V$ taki, że $e_f(v) > 0$, $h(v) > h(w)$ i $c'_a(v, w) > 0$}
-		\State Przepchnij $min \lbrace c'_a(v, w)$, $e_f(v)\rbrace$ jednostek przepływu przez krawędź $(v, w)$
-		\If {$v \in V_W$ \textbf{and} $w \in V_C$}
-		\State a[$v - 1$] $\coloneqq w - 1 - |W|$
-		\EndIf
-		\If {$v \in V_C$ \textbf{and} $w \in V_W$}
-		\State a[$w - 1$] $\coloneqq -1$
-		\EndIf
-		\Else 
-		\ForAll{$v \in V$, $e_f(v) > 0$}
-		$h[v] \coloneqq h[v] + 1$
+		\State $\mathbf{P} \coloneqq \mathbf{B} \cup \mathbf{H}$
+		\State $O \coloneqq$ początek układu współrzędnych
+		\State $L \coloneqq$ najbardziej położony na lewo spośród najniższych punktów z $\mathbf{P}$
+		\\
+		\State przesuń wszystkie punkty z $\mathbf{P}$ o wektor $LO$
+		\State posortuj $\mathbf{P}$ leksykograficznie po kącie między wektorem $OP$ a osią $OX$ i odległości od $O$
+		\\
+		\State balance $\coloneqq 0$
+		\ForAll{$P \in \mathbf{P}$}
+			\If{$P \in \mathbf{B}$}
+				\State balance $\mathrel{{+}{=}} 1$
+			\Else
+				\State balance $\mathrel{{-}{=}} 1$
+			\EndIf
+			\If{balance $= 0$}
+				\State $S \coloneqq P$
+				\State \Break
+			\EndIf
 		\EndFor
-		\EndIf
-		\State
-		\Return $f_l$
+		\\
+		\State $\mathbf{B}_{1} \coloneqq $ punkty z $\mathbf{B}$ na lewo od $LS$
+		\State $\mathbf{H}_{1} \coloneqq $ punkty z $\mathbf{H}$ na lewo od $LS$
+		\State $\mathbf{B}_{2} \coloneqq $ punkty z $\mathbf{B}$ na prawo od $LS$
+		\State $\mathbf{H}_{2} \coloneqq $ punkty z $\mathbf{H}$ na prawo od $LS$
+		\\
+		\State $\mathbf{M}_{1} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{1}$, $\mathbf{H}_{1}$}
+		\State $\mathbf{M}_{2} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{2}$, $\mathbf{H}_{2}$}
+		\\
+		\State \Return $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$
 		\EndFunction
 	\end{algorithmic}
 	
