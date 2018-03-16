@@ -190,7 +190,7 @@
 	\section{Dowód poprawności rozwiązania}
 	
 	\begin{lemma}
-		Jeżeli $LS$ jest odcinkiem takim, że po jego lewej (prawej) stronie znajduje się tyle samo piłeczek co dołków, to dopasowanie będącego sumą teoriomnogościową:
+		Niech $\mathbf{B}$ będzie zbiorem piłeczek, zaś $\mathbf{H}$ zbiorem dołków oraz niech $|\mathbf{B}| = |\mathbf{H}|$ . Jeżeli $LS$ jest uderzeniem takim, że po jego lewej (prawej) stronie znajduje się tyle samo piłeczek co dołków, to dopasowanie będącego sumą teoriomnogościową:
 		\begin{itemize}
 			\item planarnego dopasowania $\mathbf{M}_{1}$ piłeczek na lewo od $LS$ z dołkami na lewo od $LS$
 			\item zbioru jednoelementowego $\left\{LS\right\}$
@@ -200,6 +200,9 @@
 	\end{lemma}
 
 	\begin{proof}
+		Zauważmy, że jeżeli $LS$ spełnia założenie lematu, to z równoliczności $\mathbf{B}$ i $\mathbf{H}$ oraz z tego założenia wynika, że jeżeli po jednej stronie uderzenia jest tyle samo piłeczek, co dołków, to po drugiej stronie również jest tyle samo piłeczek, co dołków (gdyż, w sumie, również musi być tyle samo piłeczek, co dołków). \\~\\
+		Niech $\mathbf{B}_{1}$ i $\mathbf{H}_{1}$ będą zbiorami odpowiednio piłeczek i dołków na lewo od $LS$, zaś $\mathbf{B}_{2}$ i $\mathbf{H}_{2}$ będą zbiorami piłeczek i dołków na lewo od $LS$. Ponieważ $|\mathbf{B}_{1}| = |\mathbf{H}_{1}|$ i $|\mathbf{B}_{2}| = |\mathbf{H}_{2}|$, to pary $\mathbf{B}_{1}$ i $\mathbf{H}_{1}$ oraz $\mathbf{B}_{2}$ i $\mathbf{H}_{2}$ również są zadaniami należącymi do zbioru zadań rozpatrywanego problemu. \\~\\
+		Zakładając, że dopasowanie $\mathbf{M}_{1}$ jest planarne wiemy, że dla dowolnej pary uderzeń z $\mathbf{M}_{1}$ te uderzenia nie mają punktu wspólnego. Dodatkowo, skoro $\mathbf{M}_{1}$ to zbiór uderzeń piłeczek znajdujących się na lewo od $LS$ do dołków znajdujących się na lewo od $LS$, to dowolne uderzenie $\mathbf{M}_{1}$ nie ma punktu wspólnego z $LS$. Analogicznie, dowolna para uderzeń z $\mathbf{M}_{2}$ nie ma punktu wspólnego oraz żadne uderzenie z $\mathbf{M}_{2}$ nie ma punktu wspólnego z $LS$. Wobec tego, dowolna para uderzeń ze zbioru $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$ nie ma punktu wspólnego. Ponadto, uderzenia z tego zbioru pokrywają zbiór punktów $\mathbf{B} \cup \mathbf{H}$. Z tego wprost wynika, że dopasowanie $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$	jest planarne.
 	\end{proof}
 
 	\begin{lemma}
