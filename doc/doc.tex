@@ -75,7 +75,10 @@
 	\begin{itemize}
 		\item \textbf{piłeczka} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{B}$;
 		\item \textbf{dołek} - punkt na płaszczyźnie dwuwymiarowej ze zbioru $\mathbb{H}$;
-		\item \textbf{uderzenie} - odcinek łączący piłeczkę i dołek ze zbioru $\mathbb{S}$;
+		\item \textbf{uderzenie} - odcinek łączący piłeczkę i dołek
+		\item \textbf{uderzenie zbalansowane} - uderzenie, w którym po każdej ze stron półpłaszczyzn rozgraniczonych przez prostą zawierającą te uderzenie znajduje się tyle samo piłeczek, co dołków
+		\item \textbf{dopasowanie} - zbiór uderzeń
+		\item \textbf{planarne dopasowanie} - dopasowanie, w którym żadna para uderzeń nie posiada punktu wspólnego
 	\end{itemize}
 	
 	\section{Problem}
@@ -110,31 +113,14 @@
 		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
 		
 		\Function {FindPlanarMatching}{$\mathbf{B}$, $\mathbf{H}$}
+		\\
 		\If{$|\mathbf{B}| = |\mathbf{H}| = 1$}
 			\State $B \coloneqq $ punkt z $\mathbf{B}$
 			\State $H \coloneqq $ punkt z $\mathbf{H}$
 			\State \Return $\left\{BH\right\}$ 
 		\EndIf
 		\\
-		\State $\mathbf{P} \coloneqq \mathbf{B} \cup \mathbf{H}$
-		\State $O \coloneqq$ początek układu współrzędnych
-		\State $L \coloneqq$ najbardziej położony na lewo spośród najniższych punktów z $\mathbf{P}$
-		\\
-		\State przesuń wszystkie punkty z $\mathbf{P}$ o wektor $LO$
-		\State posortuj $\mathbf{P}$ leksykograficznie po kącie między wektorem $OP$ a osią $OX$ i odległości od $O$
-		\\
-		\State balance $\coloneqq 0$
-		\ForAll{$P \in \mathbf{P}$}
-			\If{$P \in \mathbf{B}$}
-				\State balance $\mathrel{{+}{=}} 1$
-			\Else
-				\State balance $\mathrel{{-}{=}} 1$
-			\EndIf
-			\If{balance $= 0$}
-				\State $S \coloneqq P$
-				\State \Break
-			\EndIf
-		\EndFor
+		\State $LS \coloneqq$ \Call{FindBalancedMatch}{$\mathbf{B}$, $\mathbf{H}$}
 		\\
 		\State $\mathbf{B}_{1} \coloneqq $ punkty z $\mathbf{B}$ na lewo od $LS$
 		\State $\mathbf{H}_{1} \coloneqq $ punkty z $\mathbf{H}$ na lewo od $LS$
@@ -145,6 +131,35 @@
 		\State $\mathbf{M}_{2} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{2}$, $\mathbf{H}_{2}$}
 		\\
 		\State \Return $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$
+		\\
+		\EndFunction
+	\end{algorithmic}
+
+	\subsubsection{Pseudokod algorytmu znajdującego uderzenie zbalansowane}
+
+	\begin{algorithmic}
+		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
+		
+		\Function {FindBalancedMatch}{$\mathbf{B}$, $\mathbf{H}$}
+		\\
+		\State $\mathbf{P} \coloneqq \mathbf{B} \cup \mathbf{H}$
+		\State $O \coloneqq$ początek układu współrzędnych
+		\State $L \coloneqq$ najbardziej położony na lewo spośród najniższych punktów z $\mathbf{P}$
+		\\
+		\State przesuń wszystkie punkty z $\mathbf{P}$ o wektor $LO$
+		\State posortuj $\mathbf{P}$ leksykograficznie po kącie między wektorem $OP$ a osią $OX$ i odległości od $O$
+		\\
+		\State balance $\coloneqq 0$
+		\ForAll{$P \in \mathbf{P}$}
+		\If{$P \in \mathbf{B}$}
+		\State balance $\mathrel{{+}{=}} 1$
+		\Else
+		\State balance $\mathrel{{-}{=}} 1$
+		\EndIf
+		\If{balance $= 0$}
+		\State \Return $LP$
+		\EndIf
+		\EndFor
 		\EndFunction
 	\end{algorithmic}
 	
@@ -174,8 +189,57 @@
 	
 	\section{Dowód poprawności rozwiązania}
 	
+	\begin{lemma}
+		Jeżeli $LS$ jest odcinkiem takim, że po jego lewej (prawej) stronie znajduje się tyle samo piłeczek co dołków, to dopasowanie będącego sumą teoriomnogościową:
+		\begin{itemize}
+			\item planarnego dopasowania $\mathbf{M}_{1}$ piłeczek na lewo od $LS$ z dołkami na lewo od $LS$
+			\item zbioru jednoelementowego $\left\{LS\right\}$
+			\item planarnego dopasowania $\mathbf{M}_{2}$ piłeczek na prawo od $LS$ z dołkami na prawo od $LS$
+		\end{itemize}
+		jest planarne.
+	\end{lemma}
+
+	\begin{proof}
+	\end{proof}
+
+	\begin{lemma}
+		Algorytm znajdujący uderzenie zbalansowane jest poprawny.
+	\end{lemma}
+
+	\begin{proof}
+	\end{proof}
+
+	\begin{theorem}
+		Algorytm ogólny rozwiązujący zadany problem jest poprawny.
+	\end{theorem}
+	
+	\begin{proof}
+	\end{proof}
+
 	%Jeżeli uda nam się znaleźć takie uderzenie $S$, po którego lewej (a zarazem prawej) stronie znajduje się tyle samo piłeczek, co dołków, możemy podzielić te zadanie na dwa podzadania. Znajdując dopasowania piłeczek do dołków znajdujących się po lewej (lub prawej) stronie uderzeniu $S$, nie mamy szans na jego przecięcie. Jednocześnie, zadanie znalezienia dopasowania piłeczek do dołków po lewej stronie nadal należy do zbioru zadań zadanego problemu (gdyż liczba rozpatrywanych dołków i piłeczek jest taka sama).
 	
 	\section{Złożoność}
+	
+	\begin{lemma}
+		Algorytm znajdujący uderzenie zbalansowane ma złożoność rzędu co najwyżej $O(n \log n)$.
+	\end{lemma}
+	
+	\begin{proof}
+	\end{proof}
+	
+	\begin{lemma}
+		W algorytmie ogólnym rozwiązującym problem, algorytm znajdujący uderzenie zbalansowane wykona się $n$ razy.
+	\end{lemma}
+	
+	\begin{proof}
+	\end{proof}	
+	
+	\begin{theorem}
+		Algorytm ogólny rozwiązujący problem ma złożoność rzędu co najwyżej $O(n^{2} \log n)$.
+	\end{theorem}
+	
+	\begin{proof}
+	\end{proof}
+	
 	
 \end{document}
