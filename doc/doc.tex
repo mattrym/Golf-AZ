@@ -317,12 +317,18 @@
 	\end{proof}
 	
 	\begin{lemma}
-		W algorytmie ogólnym rozwiązującym problem, wysokość drzewa rekursji wynosi wynosi $n$.
+		W algorytmie ogólnym rozwiązującym problem, funkcja wykonująca ogólny algorytm dla zbiorów o liczności $0$ lub $1$ zostanie wywołana $n$ razy, zaś dla zbiorów o liczności od $2$ do $n$ co najwyżej $n - 1$ razy.
 	\end{lemma}
 	
 	\begin{proof}
-		W każdym wywołaniu funkcji enkapsulującej ogólny algorytm rozwiązania problemu, wywoływana jest funkcja znajdująca uderzenie zbalansowane. W dalszej części algorytmu, podczas podziału zadania na mniejsze metodą "dziel i zwycieżaj", to punkty tego uderzenia nie będą uwzględnione w żadnym z podzadań. Skutkuje to redukcją rozmiaru podzadania o co najmniej $1$.
-		Dla rozmiar zadania równego $0$ 
+		Każdym wywołanie funkcji enkapsulującej ogólny algorytm rozwiązania problemu sprowadza się do dwóch możliwych sytuacji:
+		\begin{enumerate}
+			\item zwrócenia zbioru pustego lub jednoelementowego (warunek zakończenie rekursji) - wykonanie typu I;
+			\item wywoływana jest funkcja znajdująca uderzenie zbalansowane, które później wyznacza podział na mniejsze (zgodnie ze strategią "dziel i zwyciężaj"), dla których rekurencyjnie wywoływana jest ta funkcja - wykonanie typu II;
+		\end{enumerate} 
+		Możemy zauważyć, że w drzewie rekursji te pierwsze wywołania będą tworzyć liście, zaś te drugie - rodziców w drzewie. Należy pamiętać, że drzewo rekursji jest drzewem regularnym, tzn. każdy węzeł posiada zero lub dwóch potomków.\\~\\
+		Ponieważ uderzenie zbalansowane nie trafia do żadnego podzadania, dla którego rekurencyjnie wykonujemy funkcję, każde podzadanie ma rozmiar mniejszy od zadania, z którego powstało, o co najmniej $1$. Ponadto, całkowity rozmiar podzadań jest mniejszy o $1$ niż rozmiar zadania, które zostało podzielone (wynika to wprost ze sposobu podziału). Rekursja zatrzymuje się dla zadań o rozmiarze $0$ lub $1$.\\~\\
+		Na podstawie powyższych własności widać, że wykonań funkcji typu II (rodziców w drzewie rekursji) jest $n - 1$, zaś wykonań funkcji typu I (liście w drzewie rekursji) jest o $1$ więcej, czyli $n$.
 	\end{proof}	
 	
 	\begin{theorem}
@@ -330,6 +336,11 @@
 	\end{theorem}
 	
 	\begin{proof}
+		Na podstawie lematu \ref{lemma:4} funkcje ogólne dla wejścia o rozmiarze $0$ lub $1$ zostaną wywołane $n$ razy, zaś pozostałe - $n - 1$ razy. \\~\\
+		Funkcje ogólne dla wejścia o rozmiarze $0$ lub $1$ wykonują się w czasie stałym - zwracają zbiór pusty lub wybierają jedyny elementy ze zbiorów i zwracają zbiór jednoelementowy zawierający jedyne możliwe uderzenie.\\~\\
+		Funkcje ogólne dla wejścia o rozmiarze większym niż $1$ wykonują się w nadliniowym - %TODO
+		\\~\\
+		Wobec tego, cały algorytm wykonuje się w czasie $(n - 1) \cdot O(n \log n) + n \cdot O(1)$, co jest równoważne temu, że algorytm wykona się w czasie $O(n^{2} \log n)$.
 	\end{proof}
 	
 	
