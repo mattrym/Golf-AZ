@@ -1,6 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage[polish]{babel}
 \usepackage{hyperref}
@@ -15,17 +16,17 @@
 \usepackage{tkz-graph}
 \usepackage{listings,xcolor}
 \renewcommand{\familydefault}{\sfdefault}
-\algnewcommand\Break{\textbf{break}}
 \setlength{\parindent}{0pt}
 \newtheorem{theorem}{Twierdzenie}
 \newtheorem{lemma}{Lemat}
+\newtheorem{invariant}{Niezmiennik}
 \newtheorem{conculsion}{Wniosek}
 
 \begin{document}
 	\begin{titlepage}
 		\newgeometry{top=1in,bottom=1in,right=1.5in,left=1.5in}
 		\begin{center}
-			{\fontsize{14}{12}\selectfont Wydział Matematyki i Nauk Informacyjnych Politechniki Warszawskiej}
+			{\fontsize{14}{12}\selectfont Politechnika Warszawska \\ Wydział Matematyki i Nauk Informacyjnych}
 			
 		\end{center}
 		
@@ -64,6 +65,10 @@
 				\hline
 				15.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.2 \\
 				\hline
+				18.03.2018 & Mateusz Rymuszka & Dowód poprawności algorytmu algorytmu & 1.3 \\
+				\hline
+				19.03.2018 & Mateusz Rymuszka & Dowód złożoności działania algorytmu & 1.4 \\
+				\hline
 			\end{tabularx} 
 	}}
 	
@@ -101,65 +106,67 @@
 	
 	\subsection{Opis}
 	
-	Algorytm bazuje na strategii dziel i zwyciężaj. Dla zadanego zbioru wyszukujemy uderzenie $S$, po którego lewej lub prawej stronie (nie ma to znaczenia ze względu na równoliczność zbiorów $\mathbb{B}$ oraz $\mathbb{H}$) znajduje się dokładnie tyle samo piłeczek, co dołków. Następnie wywołujemy ten algorytm osobno dla piłeczek i dołków znajdujących się po lewej stronie, a osobno po prawej. Wywołując ten algorytm dla jednej piłeczki i jednego dołka, zwracamy natychmiast uderzenie składające się z tej piłeczki i tego dołka. Wszystkie znalezione przez ten algorytm uderzenia tworzą rozwiązanie zadania. \\~\\
-	Aby znaleźć uderzenie $S$, po którego jednej ze stron znajduje się dokładnie tyle samo piłeczek, co dołków, zastosujemy algorytm podobny w budowie do algorytmu Grahama znajdowania otoczki wypukłej punktów w przestrzeni dwuwymiarowej. Wyszukujemy punkt o najmniejszej współrzędnej rzędnej (jeżeli jest ich kilka, to wybieramy ten o najmniejszej współrzędnej odciętej) $O$ i przesuwamy początek układu współrzędnych do tego punktu. Następnie sortujemy pozostałe punkty po kącie między wektorem od początku układu do tego punktu a osią $OX$ (ponieważ dowolne trzy punkty z obu zbiorów nie są współliniowe, to każdy punkt będzie miał inną wartość tego kąta). \\
-	Każdemu punktowi, w zależności od tego, czy jest piłeczką czy dołkiem, przyporządkowana jest wartość liczbowa: dla piłeczki jest to $1$, zaś dla dołka $-1$. Inicjalizujemy zmienną pomocniczą wartością dla punktu $O$ i następnie przechodzimy po posortowanej liście punktów, dodając do tej zmiennej wartość aktualnego punktu. W momencie, gdy zmienna pomocnicza osiągnie wartość $0$, algorytm kończy działanie, a ostatnio rozpatrywany punkt tworzy z punktem $O$ uderzenie, które spełnia wspomniany warunek.
+	Algorytm bazuje na strategii dziel i zwyciężaj. Dla zadanego zbioru wyszukujemy uderzenie $S$, po którego lewej lub prawej stronie (nie ma to znaczenia ze względu na równoliczność zbiorów $\mathbb{B}$ oraz $\mathbb{H}$) znajduje się dokładnie tyle samo piłeczek, co dołków. Następnie wywołujemy ten algorytm osobno dla piłeczek i dołków znajdujących się po lewej stronie, a osobno po prawej. \\~\\
+	Wywołując algorytm dla pustych zbiorów piłeczek i dołków, otrzymamy zbiór pusty. Wywołując algorytm dla jednej piłeczki i jednego dołka, zwracamy uderzenie składające się z tej piłeczki i tego dołka. Wszystkie znalezione przez ten algorytm uderzenia tworzą rozwiązanie zadania. \\~\\
+	Aby znaleźć uderzenie $S$, po którego jednej ze stron znajduje się dokładnie tyle samo piłeczek, co dołków, zastosujemy algorytm podobny w budowie do algorytmu Grahama znajdowania otoczki wypukłej punktów w przestrzeni dwuwymiarowej. Wyszukujemy punkt o najmniejszej współrzędnej rzędnej (jeżeli jest ich kilka, to wybieramy ten o najmniejszej współrzędnej odciętej) $O$ i przesuwamy początek układu współrzędnych do tego punktu. Następnie sortujemy pozostałe punkty po kącie między wektorem od początku układu do tego punktu a osią $OX$ (ponieważ dowolne trzy punkty z obu zbiorów nie są współliniowe, to każdy punkt będzie miał inną wartość tego kąta). \\~\\
+	Każdemu punktowi, w zależności od tego, czy jest piłeczką czy dołkiem, przyporządkowana jest wartość liczbowa: dla piłeczki jest to $1$, zaś dla dołka $-1$. Inicjalizujemy zmienną pomocniczą wartością zerową i następnie przechodzimy po posortowanej liście punktów, dodając do tej zmiennej wartość aktualnego punktu. W momencie, gdy zmienna pomocnicza osiągnie ponownie wartość $0$, algorytm kończy działanie, a ostatnio rozpatrywany punkt tworzy z punktem $O$ uderzenie, które spełnia wspomniany warunek.\\~\\
+	Po znalezieniu uderzenia zbalansowanego oraz znalezieniu rozwiązań dla zmniejszych zadań na lewo i na prawo od tego uderzenia, jako wynik zwracamy sumę teoriomnogościową rozwiązania dla punktów po lewej, zbiór jednoelementowy zawierający znalezione uderzenie zbalansowane oraz rozwiązanie dla punktów po prawej.
 	
 	\subsection{Pseudokod}
-	
+
 	\subsubsection{Pseudokod ogólnego algorytmu}
-	
+
 	\begin{algorithmic}
 		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
 		
 		\Function {FindPlanarMatching}{$\mathbf{B}$, $\mathbf{H}$}
-		\\
-		\If{$|\mathbf{B}| = |\mathbf{H}| = 1$}
-			\State $B \coloneqq $ punkt z $\mathbf{B}$
-			\State $H \coloneqq $ punkt z $\mathbf{H}$
-			\State \Return $\left\{BH\right\}$ 
-		\EndIf
-		\\
-		\State $LS \coloneqq$ \Call{FindBalancedMatch}{$\mathbf{B}$, $\mathbf{H}$}
-		\\
-		\State $\mathbf{B}_{1} \coloneqq $ punkty z $\mathbf{B}$ na lewo od $LS$
-		\State $\mathbf{H}_{1} \coloneqq $ punkty z $\mathbf{H}$ na lewo od $LS$
-		\State $\mathbf{B}_{2} \coloneqq $ punkty z $\mathbf{B}$ na prawo od $LS$
-		\State $\mathbf{H}_{2} \coloneqq $ punkty z $\mathbf{H}$ na prawo od $LS$
-		\\
-		\State $\mathbf{M}_{1} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{1}$, $\mathbf{H}_{1}$}
-		\State $\mathbf{M}_{2} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{2}$, $\mathbf{H}_{2}$}
-		\\
-		\State \Return $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$
-		\\
+			\If{$|\mathbf{B}| = |\mathbf{H}| = 0$} \Comment{(1)}
+				\State \Return $\emptyset$ 
+			\EndIf
+			\\
+			\If{$|\mathbf{B}| = |\mathbf{H}| = 1$} \Comment{(1)}
+				\State $B \coloneqq $ punkt z $\mathbf{B}$
+				\State $H \coloneqq $ punkt z $\mathbf{H}$
+				\State \Return $\left\{\overline{BH}\right\}$ 
+			\EndIf
+			\\
+			\State $\overline{LS} \coloneqq$ \Call{FindBalancedMatch}{$\mathbf{B}$, $\mathbf{H}$} \Comment{(1)}
+			\\
+			\State $\mathbf{B}_{1} \coloneqq $ punkty z $\mathbf{B}$ na lewo od $LS$ \Comment{(2)}
+			\State $\mathbf{H}_{1} \coloneqq $ punkty z $\mathbf{H}$ na lewo od $LS$ \Comment{(2)}
+			\State $\mathbf{B}_{2} \coloneqq $ punkty z $\mathbf{B}$ na prawo od $LS$ \Comment{(2)}
+			\State $\mathbf{H}_{2} \coloneqq $ punkty z $\mathbf{H}$ na prawo od $LS$ \Comment{(2)}
+			\\
+			\State $\mathbf{M}_{1} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{1}$, $\mathbf{H}_{1}$} \Comment{(3)}
+			\State $\mathbf{M}_{2} \coloneqq $ \Call{FindPlanarMatching}{$\mathbf{B}_{2}$, $\mathbf{H}_{2}$} \Comment{(3)}
+			\State \Return $\mathbf{M}_{1} \cup \left\{\overline{LS}\right\} \cup \mathbf{M}_{2}$
 		\EndFunction
 	\end{algorithmic}
 
 	\subsubsection{Pseudokod algorytmu znajdującego uderzenie zbalansowane}
-
+	
 	\begin{algorithmic}
 		\State \textbf{Wejście:} zbiór piłeczek $\mathbf{B}$ oraz dołków $\mathbf{H}$  \\
 		
 		\Function {FindBalancedMatch}{$\mathbf{B}$, $\mathbf{H}$}
-		\\
-		\State $\mathbf{P} \coloneqq \mathbf{B} \cup \mathbf{H}$
-		\State $O \coloneqq$ początek układu współrzędnych
-		\State $L \coloneqq$ najbardziej położony na lewo spośród najniższych punktów z $\mathbf{P}$
-		\\
-		\State przesuń wszystkie punkty z $\mathbf{P}$ o wektor $LO$
-		\State posortuj $\mathbf{P}$ leksykograficznie po kącie między wektorem $OP$ a osią $OX$ i odległości od $O$
-		\\
-		\State balance $\coloneqq 0$
-		\ForAll{$P \in \mathbf{P}$}
-		\If{$P \in \mathbf{B}$}
-		\State balance $\mathrel{{+}{=}} 1$
-		\Else
-		\State balance $\mathrel{{-}{=}} 1$
-		\EndIf
-		\If{balance $= 0$}
-		\State \Return $LP$
-		\EndIf
-		\EndFor
+			\State $\mathbf{P} \coloneqq \mathbf{B} \cup \mathbf{H}$ \Comment{(2)}
+			\State $O \coloneqq$ początek układu współrzędnych
+			\State $L \coloneqq$ najbardziej położony na lewo spośród najniższych punktów z $\mathbf{P}$ \Comment{(3)}
+			\\
+			\State przesuń wszystkie punkty z $\mathbf{P}$ o wektor $\overrightarrow{LO}$ \Comment{(4)}
+			\State posortuj $\mathbf{P}$ leksykograficznie po kącie między wektorem $\overrightarrow{OP}$ a osią $OX$ i odległości od $O$ \Comment{(6)} 
+			\\
+			\State balance $\coloneqq 0$
+			\ForAll{$P \in \mathbf{P}$} \Comment{(5)} 
+				\If{$P \in \mathbf{B}$}
+					\State balance $\mathrel{{+}{=}} 1$
+				\Else
+					\State balance $\mathrel{{-}{=}} 1$
+				\EndIf
+				\If{balance $= 0$}
+					\State \Return $\overline{LP}$
+				\EndIf
+			\EndFor
 		\EndFunction
 	\end{algorithmic}
 	
@@ -189,7 +196,7 @@
 	
 	\section{Dowód poprawności rozwiązania}
 	
-	\begin{lemma}
+	\begin{lemma}\label{lemma:1}
 		Niech $\mathbf{B}$ będzie zbiorem piłeczek, zaś $\mathbf{H}$ zbiorem dołków oraz niech $|\mathbf{B}| = |\mathbf{H}|$ . Jeżeli $LS$ jest uderzeniem takim, że po jego lewej (prawej) stronie znajduje się tyle samo piłeczek co dołków, to dopasowanie będącego sumą teoriomnogościową:
 		\begin{itemize}
 			\item planarnego dopasowania $\mathbf{M}_{1}$ piłeczek na lewo od $LS$ z dołkami na lewo od $LS$
@@ -200,16 +207,84 @@
 	\end{lemma}
 
 	\begin{proof}
+		Dla przypadku dla $n = 1$  teza jest oczywista. \\~\\
 		Zauważmy, że jeżeli $LS$ spełnia założenie lematu, to z równoliczności $\mathbf{B}$ i $\mathbf{H}$ oraz z tego założenia wynika, że jeżeli po jednej stronie uderzenia jest tyle samo piłeczek, co dołków, to po drugiej stronie również jest tyle samo piłeczek, co dołków (gdyż, w sumie, również musi być tyle samo piłeczek, co dołków). \\~\\
 		Niech $\mathbf{B}_{1}$ i $\mathbf{H}_{1}$ będą zbiorami odpowiednio piłeczek i dołków na lewo od $LS$, zaś $\mathbf{B}_{2}$ i $\mathbf{H}_{2}$ będą zbiorami piłeczek i dołków na lewo od $LS$. Ponieważ $|\mathbf{B}_{1}| = |\mathbf{H}_{1}|$ i $|\mathbf{B}_{2}| = |\mathbf{H}_{2}|$, to pary $\mathbf{B}_{1}$ i $\mathbf{H}_{1}$ oraz $\mathbf{B}_{2}$ i $\mathbf{H}_{2}$ również są zadaniami należącymi do zbioru zadań rozpatrywanego problemu. \\~\\
 		Zakładając, że dopasowanie $\mathbf{M}_{1}$ jest planarne wiemy, że dla dowolnej pary uderzeń z $\mathbf{M}_{1}$ te uderzenia nie mają punktu wspólnego. Dodatkowo, skoro $\mathbf{M}_{1}$ to zbiór uderzeń piłeczek znajdujących się na lewo od $LS$ do dołków znajdujących się na lewo od $LS$, to dowolne uderzenie $\mathbf{M}_{1}$ nie ma punktu wspólnego z $LS$. Analogicznie, dowolna para uderzeń z $\mathbf{M}_{2}$ nie ma punktu wspólnego oraz żadne uderzenie z $\mathbf{M}_{2}$ nie ma punktu wspólnego z $LS$. Wobec tego, dowolna para uderzeń ze zbioru $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$ nie ma punktu wspólnego. Ponadto, uderzenia z tego zbioru pokrywają zbiór punktów $\mathbf{B} \cup \mathbf{H}$. Z tego wprost wynika, że dopasowanie $\mathbf{M}_{1} \cup \left\{LS\right\} \cup \mathbf{M}_{2}$	jest planarne.
 	\end{proof}
 
-	\begin{lemma}
-		Algorytm znajdujący uderzenie zbalansowane jest poprawny.
-	\end{lemma}
+	\begin{theorem} \label{theorem:1}
+		Algorytm znajdujący uderzenie zbalansowane znajduje takie dopasowanie dla dowolnych skończonych i równolicznych zbiorów $\mathbf{B}$ piłeczek i $\mathbf{H}$ dołków.
+	\end{theorem}
 
 	\begin{proof}
+		Dla $n = 0$ oraz $n = 1$ dowód jest trywialny i wynika wprost z definicji uderzenia zbalansowanego, więc go pomijamy. \\~\\
+		Operacje początkowe mają na celu przygotować punkty do wykonania właściwej części algorytmu. Wynikające z nich własności pomogą nam w udowodnieniu niezmienników głównej pętli. Należą do nich:
+		\begin{enumerate}
+			\item znaleźliśmy najniższy, najbardziej na lewo punkt $L$ spośród wszystkich piłeczek i dołków, 
+			\item przesunęliśmy do punktu $L$ początek układu współrzędnych $O$
+			\item posortowaliśmy punkty z $\mathbf{P}$ po kącie między wektorem $\overrightarrow{OP}$ a osią $OX$ oraz odległości od $O$
+		\end{enumerate}
+		Ostatni punkt nie wymaga sortowania wszystkich punktów po odległości od $O$, gdyż z założeń żadne trzy punkty z nie są współliniowe. Wymusza to jedynie, aby punkt $O = L$ był pierwszy w kolejności. \\~\\
+		W celu dowiedzenia poprawności naszego algorytmu, pokażemy, że zachodzą pewne niezmienniki pętli głównej naszego algorytmu.
+
+		\begin{invariant} \label{invariant:1}
+			Algorytm nie zakończy się w pierwszym kroku pętli.
+		\end{invariant}
+
+		\begin{proof}
+			Dość oczywisty - w tym kroku zmienna balance będzie wynosić $-1$ lub $1$, więc algorytm nie przerwie pętli i będzie się wykonywał dalej. 
+		\end{proof}
+
+		\begin{invariant} \label{invariant:2}
+			Algorytm zakończy się w którymś z kroków pętli.
+		\end{invariant}
+
+		\begin{proof}
+			Zmienna balance jest zainicjowana zerem przed wejściem do pętli. Następnie, w każdym kroku pętli jest ona zwiększana o jeden (gdy punkt rozpatrywany w iteracji jest piłeczką) lub zmniejszana od jeden (gdy punkt rozpatrywany w iteracji jest dołkiem). \\~\\
+			Gdyby algorytm nie zakończył się w którejś z pętli, oznaczałoby to, że zmienna balance nie przyjęła wartości zero po żadnym z kroków pętli, w szczególności - ostatnim. Ale ponieważ  = , to po ostatnim kroku pętli rozpatrzyliśmy wszystkie piłeczki i wszystkie dołki, których jest tyle samo. Oznacza to, że do zmiennej balance dodaliśmy dokładnie tyle, co od niej odjęliśmy, czyli wynosi tyle, ile jej wartość początkowa, czyli $0$. Sprzeczność - pętla wykona najpóźniej w ostatnim kroku pętli. 
+		\end{proof}
+
+		\begin{invariant} \label{invariant:3}
+			W $k$-tym kroku pętli (gdzie $k \geq 3)$ na prawo (zgodnie z ruchem wskazówek zegara) od odcinka $\overline{OP}$ znajdują się punkty rozpatrywane w krokach od drugiego do $k-1$-tego.
+		\end{invariant}
+
+		\begin{proof}
+			Punkty są posortowane rosnąco po kącie między wektorem $\overrightarrow{OP}$ a osią $OX$.  Wobec tego, dla różnych punktów $P_{i}$ oraz $P_{j}$, dla których te kąty wynoszą odpowiednio $\alpha_{i}$ oraz $\alpha_{j}$, jeżeli $i < j$, to $\alpha_{i} < \alpha_{j}$. \\~\\
+			Wobec tego, kąt między wektorem $\overrightarrow{OP_{ji}}$ oraz $\overrightarrow{OP_{j}}$ wynosi $\alpha_{i} - \alpha_{j} < 0$, zatem punkt $P_{j}$ jest położony zgodnie z ruchem wskazówek zegara ("na prawo") w stosunku do punktu $P_{i}$, gdzie $O$ jest początkiem układu współrzędnych.
+		\end{proof}
+
+		\begin{invariant} \label{invariant:4}
+			Zmienna balance po wykonaniu $k$-tego kroku pętli (poza pierwszym krokiem pętli) dla punktu $P$ wskazuje na różnicę między liczbą piłeczek a liczbą dołków na półpłaszczyźnie na prawo od prostej zawierającej odcinek $\overline{OP}$, włącznie z tą prostą.
+		\end{invariant}
+
+		\begin{proof}[Dowód (indukcyjny)]
+			Po pierwszym kroku pętli zmienna balance wynosi $-1$, gdy najniższy, najbardziej na lewo punkt jest dołkiem, albo $1$, gdy ten punkt jest piłeczką. 
+			\begin{enumerate}
+				\item Dla $k = 2$ nie ma punktów na prawo od wektora $OP$. Zmienna balance jest wówczas sumą wartości dla pierwszego i drugiego punktu. Może wynieść:
+				\begin{enumerate}
+					\item $2$, gdy oba punkty są piłeczkami,
+					\item $0$, gdy jeden z punktów jest piłeczką, a drugi dołkiem,
+					\item $-2$, gdy oba punkty są dołkami.
+				\end{enumerate}
+				\item Założmy, że dla pewnego $k < 2n$ spełniona jest teza niezmiennika. Wówczas rozpatrzmy krok $(k+1)$-ty, w którym rozpatrujemy punkt $P$. \\~\\
+				Na mocy niezmiennika \ref{invariant:3} na prawo od wektora $\overrightarrow{OP}$ znajdują się punkty rozpatrywane w krokach od drugiego do $k$-tego. Z kolei na mocy założenia indukcyjnego, zmienna balance przed wykonaniem $(k+1)$-go kroku wskazuje na różnicę między liczbą piłeczek a liczbą dołków dla punktów rozpatrywanych w poprzednich krokach algorytmu. \\~\\
+				Zmienna balance zwiększy się o $1$, gdy rozpatrywany punkt $P$ będzie piłeczką, lub zmniejszy się o $1$, gdy będzie on dołkiem. Tak samo, różnica między liczbą piłeczek a dołków również zwiększy się o $1$, gdy rozpatrywany punkt $P$ będzie piłeczką, lub zmniejszy się o $1$, gdy będzie on dołkiem. Wobec tego, po wykonaniu $(k+1)$-tego kroku zmienna balance nadal będzie wskazywać na różnicę między liczbą piłeczek a liczbą dołków dla punktów rozpatrywanych w krokach od pierwszego do $(k+1)$-tego. 
+			\end{enumerate}
+			
+		\end{proof}
+	
+		\begin{invariant}
+			Algorytm znajduje odcinek będący uderzeniem.
+		\end{invariant}
+	
+		\begin{proof}
+			Założmy, że znaleziony odcinek, nie jest uderzeniem. Wobec tego, w pierwszym i ostatnim kroku algorytmu wartość balance albo się zwiększyła, albo się zmniejszyła. Dla ustalenia uwagi przyjmijmy, że w tych krokach rozpatrywano piłeczki i wartości zmiennej balance była zwiększana.\\~\\
+			Po pierwszym kroku wartość zmiennej balance wynosiła $1$. Z kolei, jeżeli po ostatnim kroku zmienna balance wynosiła $0$, to przed nim musiała wynosić $-1$ (w tym kroku rozpatrywaliśmy piłeczkę). W związku z tym, w krokach od drugiego do przedostatniego wartość zmiennej balance zmieniała się od $1$ do $-1$. Ponieważ w jednym kroku zmienna balance może się mniejszyć maksymalnie o $1$, to po pewnym kroku między drugim a przedostatnim wartość zmiennej balance wynosiła $0$. Sprzeczność - algorytm powinien zakończyć się w momencie, gdy zmienna balance po raz pierwszy osiągnie wartość zerową.
+		\end{proof}
+
+		Na podstawie tych niezmienników wiemy, że algorytm zakończy się w którymś z kroków (poza pierwszym). Wiemy także, że po tym kroku zmienna balance, która wskazuje na różnicę między liczbą dotychczas rozpatrywanych piłeczek a liczbą dotychczas rozpatrywanych dołków wynosi $0$. Wiemy także, że wszystkie dotychczas rozpatrywane punkty leżą na prawo lub na prostej przechodzącej przez wektor $\overrightarrow{OP}$, gdzie $P$ jest obecnie rozpatrywanym punktem. Z tego wynika, że wśród punktów znajdujących się na prawo od wektora $\overrightarrow{OP}$ jest dokładnie tyle samo piłeczek, co dołków, a także odcinek $OP$ łączy piłeczkę z dołkiem. Wobec tego, znalezione uderzenie $OP$ jest uderzeniem zbalansowanym.
+
 	\end{proof}
 
 	\begin{theorem}
@@ -217,9 +292,9 @@
 	\end{theorem}
 	
 	\begin{proof}
+		Na mocy twierdzenia \ref{theorem:1} dla dowolnego wejścia możliwe jest znalezienie uderzenia zbalansowanego, po którego lewej (a zarazem prawej) stronie znajduje się tyle samo piłeczek, co dołków. Z dowodu lematu \ref{lemma:1} możemy podzielić te zadanie na dwa podzadania, znajdując dopasowania piłeczek do dołków znajdujących się po lewej i prawej stronie uderzenia zbalansowanego. \\~\\
+		Ze względu na to, że $\mathbf{B}_{1} \subsetneq B$ i $\mathbf{H}_{1} \subsetneq H$ oraz $\mathbf{B}_{2} \subsetneq B$ i $\mathbf{H}_{2} \subsetneq H$, to z każdym zejściem rekursji rozmiar podzadania się zmniejsza. Dla $n = 1$ dochodzimy do dna rekursji i następuje powrót. Na mocy lematu \ref{lemma:1}, ta strategia pozwala na znalezenie prawidłowego planarnego dopasowania piłeczek do dołków na dowolnym poziomie rekursji, w tym na jej samym szczycie. trzy punkty nie są współliniowe.
 	\end{proof}
-
-	%Jeżeli uda nam się znaleźć takie uderzenie $S$, po którego lewej (a zarazem prawej) stronie znajduje się tyle samo piłeczek, co dołków, możemy podzielić te zadanie na dwa podzadania. Znajdując dopasowania piłeczek do dołków znajdujących się po lewej (lub prawej) stronie uderzeniu $S$, nie mamy szans na jego przecięcie. Jednocześnie, zadanie znalezienia dopasowania piłeczek do dołków po lewej stronie nadal należy do zbioru zadań zadanego problemu (gdyż liczba rozpatrywanych dołków i piłeczek jest taka sama).
 	
 	\section{Złożoność}
 	
@@ -228,13 +303,26 @@
 	\end{lemma}
 	
 	\begin{proof}
+		W celu analizy złożoności, rozważymy poszczególne operacje wykonywane w algorymie. W celu ułatwienia analizy, będziemy się odnosili do poszczególnych etykiet w pseudokodzie:
+		\begin{enumerate}
+			\item obsługa przypadków wyjątkowych jest trywialna i wykonuje się w czasie stałym - $O(1)$;
+			\item połączenie zbiorów punktów można zrealizować w czasie liniowym (zakładając, że $|\mathbf{B}| = |\mathbf{H}|$ ); dodatkowo, zadanie jest o tyle łatwe, że w warunkach wejścia uwzględniamy fakt, aby te punkty były parami różne - $O(n)$;
+			\item znalezienie minimalnego punktu, przy założeniu o jednostkowym koszcie porównania, będzie wymagało liniowego przejścia po całej kolekcji punktów - $O(n)$;
+			\item translacja każdego punktu o stały wektor ma również złożonosć czasową liniową (przesuwamy każdy punkt z kolekcji) - $O(n)$;
+			\item porównanie dwóch punktów $P_{1}$ oraz $P_{2}$ na podstawie kąta między wektorem $OP_{i}$ a osią $OX$ i odległości od $O$ można zrealizować w czasie stałym (np. posługując się monotonicznością funkcji trygonometrycznych na przedziale $\left[0, \pi\right]$); \\ przy tym założeniu, dla metody quicksort z wyborem pivota algorytmem magicznych piątek, posortowanie punktów będzie miało złożoność czasową nadliniową - $O(n \log n)$;
+			\item wewnątrz pętli, zostaną wykonane dwa porównania, jedno przypisane i co najwyżej jeden powrót z funkcji; ponieważ pętla w pesymistycznym przypadku przechodzi po całej kolekcji punktów, złożoność tej operacji jest liniowa $O(n)$
+		\end{enumerate}
+		
+		Podsumowując tę krótką analizę widzimy, że najbardziej kosztowną operacją jest posortowanie wszystkich punktów. W związku z tym, złożoność czasowa całego algorytmu znajdowania uderzenie zbalansowanego jest nadliniowa, tzn. wynosi $O(n \log n)$.
 	\end{proof}
 	
 	\begin{lemma}
-		W algorytmie ogólnym rozwiązującym problem, algorytm znajdujący uderzenie zbalansowane wykona się $n$ razy.
+		W algorytmie ogólnym rozwiązującym problem, wysokość drzewa rekursji wynosi wynosi $n$.
 	\end{lemma}
 	
 	\begin{proof}
+		W każdym wywołaniu funkcji enkapsulującej ogólny algorytm rozwiązania problemu, wywoływana jest funkcja znajdująca uderzenie zbalansowane. W dalszej części algorytmu, podczas podziału zadania na mniejsze metodą "dziel i zwycieżaj", to punkty tego uderzenia nie będą uwzględnione w żadnym z podzadań. Skutkuje to redukcją rozmiaru podzadania o co najmniej $1$.
+		Dla rozmiar zadania równego $0$ 
 	\end{proof}	
 	
 	\begin{theorem}
