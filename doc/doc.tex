@@ -16,6 +16,8 @@
 \usepackage{tkz-graph}
 \usepackage{listings,xcolor}
 \usepackage{scrextend}
+\usepackage{float}
+\usepackage{subcaption}
 \renewcommand{\familydefault}{\sfdefault}
 \setlength{\parindent}{0pt}
 \newtheorem{theorem}{Twierdzenie}
@@ -182,10 +184,78 @@
 	
 	\section{Rozwiązanie przykładowego zadania}
 	
-	\section{Format danych wejściowych oraz format wyjścia}
+	Załóżmy że mamy dwa równoliczne zbiory i każdemu z elementów zbioru odpowiada pewien punkt na płaszczyźnie:
+	\begin{itemize}
+	\item Zbiór piłek $\mathbf{B} = \{B1, B2, B3, B4\}$ 
+	\item Zbiór dołków $\mathbf{H} = \{H1, H2, H3, H4\}$ 
+	\end{itemize}
+
+	\begin{figure}[H]
+	\centering
+ 		 \includegraphics[scale=0.5]{images/step1.png}
+ 		 \caption{Początkowy układ dołków i piłeczek.}
+ 		 \label{fig:step1}
+	\end{figure}
+	
+	Pierwszym krokiem jest wybranie punktu $B1$, który ma najmniejszą wartość współrzędnej Y. Następnie po przesunięcia środka układu współrzędnych w jego miejsce, sortujemy pozostałe punkty tak jak jest w opisie algorytmu. 
+	
+	\begin{figure}[H]
+	\centering
+ 		 \includegraphics[scale=0.5]{images/step2.png}
+ 		 \caption{Znalezienie pierwszego punktu dzielącego płaszczyznę.}
+ 		 \label{fig:step1}
+	\end{figure}
+	
+		Następnie przechodzimy po kolei po posortowanych punktach, odpowiednio zwiększając lub zmniejszając wartość balansu. W momencie dotarcia do punktu $H1$ wartość balansu jest równa 0, dlatego zapamiętujemy uderzenie $\{B1,H1\}$, a parę tych punktów możemy pominąć w dalszych poszukiwaniach.\\
+		Punkty, które zostaly znalezione do momentu znalezienia punktyu dzielącego płąszczyznę kwalifikujemy do osobnego podproblemu(Grupa 1), podobnie jak punkty jeszcze nieodwiedzone(Grupa 2).
+	
+	\begin{figure}[H]
+	\centering
+ 		 \includegraphics[scale=0.5]{images/step3.png}
+ 		 \caption{Podział na podproblemy.}
+ 		 \label{fig:step1}
+	\end{figure}		
+
+Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary punktów, które dodajemy do wynikowego zbioru uderzeń.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[scale=0.5]{images/step41.png}
+    \caption{Grupa 1.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{images/step421.png}
+    \caption{Grupa 2.}
+  \end{subfigure}
+  
+  \caption{Rozwiązywanie podproblemów.}
+  \label{fig:coffee}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[scale=0.6]{images/step422.png}
+    \caption{Stworzenie kolejnego podproblemu.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[scale=0.7]{images/step423.png}
+    \caption{Grupa 3.}
+  \end{subfigure}
+  
+  \caption{Rozwiązywanie podproblemów}
+  \label{fig:coffee}
+\end{figure}
+	
+		Gdy nie pozostały żadne nierozwiązane podproblemy(wszystkie punkty zostały dobrane w pary), możemy zwrócić ostateczny zbiór uderzeń $\mathbf{U} = \{\{B1,H1\},\{B2,H2\},\{B3,H3\},\{B4,H4\}\}$ będący wynikiem działania algorytmu.
+
+		
+	\section{Znalezienie punktu dzielącego płaszczyznę.}
 	
 	\subsection{Wejście}
 	
+
 	Plik wejściowy posiada następujące informacje:
 	\begin{itemize}
 		\item liczbę piłeczek lub liczbę dołków, czyli $n$ w pierwszej linii;
