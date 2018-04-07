@@ -57,24 +57,7 @@
 		\tableofcontents
 		\vspace{1cm}
 		{\renewcommand{\arraystretch}{2.0}
-			
-			\begin{tabularx}{\textwidth}{|l|l|X|l|}
-				\hline 
-				Data & Autor & Opis zmian & Wersja\\
-				\hline
-				10.03.2018 & Mateusz Rymuszka & Pierwsza wersja dokumentu & 1.0 \\
-				\hline
-				11.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.1 \\
-				\hline
-				15.03.2018 & Mateusz Rymuszka & Opis problemu, zadania, algorytmu oraz wejścia/wyjścia & 1.2 \\
-				\hline
-				18.03.2018 & Mateusz Rymuszka & Dowód poprawności algorytmu algorytmu & 1.3 \\
-				\hline
-				19.03.2018 & Mateusz Rymuszka & Dowód złożoności działania algorytmu & 1.4 \\
-				\hline
-				22.03.2018 & Mateusz Rymuszka & Poprawki wizualne i merytoryczne & 1.5 \\
-				\hline
-			\end{tabularx} 
+		
 	}}
 	
 	\newpage
@@ -88,7 +71,7 @@
 		\item \textbf{uderzenie} - odcinek łączący piłeczkę i dołek na płaszczyźnie dwuwymiarowej;
 		\item \textbf{uderzenie zbalansowane} - uderzenie, w którym po każdej ze stron półpłaszczyzn rozgraniczonych przez prostą zawierającą te uderzenie znajduje się tyle samo piłeczek, co dołków;
 		\item \textbf{dopasowanie} (piłeczek $\mathbf{B}$ do dołków $\mathbf{H}$) - zbiór uderzeń pokrywających zbiory punktów $\mathbf{B}$ i $\mathbf{H}$;
-		\item \textbf{planarne dopasowanie} - dopasowanie, w którym żadna para uderzeń nie posiada punktu wspólnego;
+		\item \textbf{planarne dopasowanie} - dopasowanie, w którym żadna para uderzeń nie ma punktu wspólnego;
 	\end{itemize}
 	
 	\section{Problem}
@@ -111,7 +94,7 @@
 	
 	\subsection{Opis}
 	
-	Algorytm bazuje na strategii dziel i zwyciężaj. Dla zadanego zbioru wyszukujemy uderzenie zbalansowane, tj. takie, po którego lewej lub prawej stronie (nie ma to znaczenia ze względu na równoliczność zbiorów $\mathbb{B}$ oraz $\mathbb{H}$) znajduje się dokładnie tyle samo piłeczek, co dołków. Następnie wywołujemy ten algorytm osobno dla piłeczek i dołków znajdujących się po lewej stronie, a osobno po prawej. \\~\\
+	Algorytm bazuje na strategii dziel i zwyciężaj. Dla zadanego zbioru wyszukujemy uderzenie zbalansowane, tj. takie, po którego lewej lub prawej stronie (nie ma to znaczenia ze względu na równoliczność zbiorów $\mathbf{B}$ oraz $\mathbf{H}$) znajduje się dokładnie tyle samo piłeczek, co dołków. Następnie wywołujemy ten algorytm osobno dla piłeczek i dołków znajdujących się po lewej stronie, a osobno po prawej. \\~\\
 	Wywołując algorytm dla pustych zbiorów piłeczek i dołków, otrzymamy zbiór pusty. Wywołując algorytm dla jednej piłeczki i jednego dołka, zwracamy uderzenie składające się z tej piłeczki i tego dołka. Wszystkie znalezione przez ten algorytm uderzenia tworzą rozwiązanie zadania. \\~\\
 	Aby znaleźć uderzenie zbalansowane zastosujemy algorytm o podobnym schemacie do algorytmu Grahama znajdowania otoczki wypukłej punktów w przestrzeni dwuwymiarowej:
 	
@@ -155,6 +138,8 @@
 		\EndFunction
 	\end{algorithmic}
 
+\pagebreak
+
 	\subsubsection{Pseudokod algorytmu znajdującego uderzenie zbalansowane}
 	
 	\begin{algorithmic}
@@ -184,72 +169,70 @@
 	
 	\section{Rozwiązanie przykładowego zadania}
 	
-	Załóżmy że mamy dwa równoliczne zbiory i każdemu z elementów zbioru odpowiada pewien punkt na płaszczyźnie:
+	Załóżmy, że mamy dwa równoliczne zbiory i każdemu z elementów zbioru odpowiada pewien punkt na płaszczyźnie:
+	
 	\begin{itemize}
-	\item Zbiór piłek $\mathbf{B} = \{B1, B2, B3, B4\}$ 
-	\item Zbiór dołków $\mathbf{H} = \{H1, H2, H3, H4\}$ 
+		\item Zbiór piłek $\mathbf{B} = \{B1, B2, B3, B4\}$ 
+		\item Zbiór dołków $\mathbf{H} = \{H1, H2, H3, H4\}$ 
 	\end{itemize}
 
 	\begin{figure}[H]
-	\centering
- 		 \includegraphics[scale=0.5]{images/step1.png}
- 		 \caption{Początkowy układ dołków i piłeczek.}
- 		 \label{fig:step1}
+		\centering
+ 			\includegraphics[scale=0.5]{images/step1.png}
+ 		 	\caption{Początkowy układ dołków i piłeczek.}
+ 		\label{fig:step1}
 	\end{figure}
 	
-	Pierwszym krokiem jest wybranie punktu $B1$, który ma najmniejszą wartość współrzędnej Y. Następnie po przesunięcia środka układu współrzędnych w jego miejsce, sortujemy pozostałe punkty tak jak jest w opisie algorytmu. 
+	Pierwszym krokiem jest wybranie punktu, który ma najmniejszą wartość współrzędnej Y, czyli $B1$. Następnie, po przesunięcia środka układu współrzędnych w jego miejsce, sortujemy pozostałe punkty tak jak jest w opisie algorytmu. 
 	
 	\begin{figure}[H]
-	\centering
- 		 \includegraphics[scale=0.5]{images/step2.png}
- 		 \caption{Znalezienie pierwszego punktu dzielącego płaszczyznę.}
- 		 \label{fig:step1}
+		\centering
+ 			\includegraphics[scale=0.5]{images/step2.png}
+ 			\caption{Znalezienie pierwszego punktu dzielącego płaszczyznę.}
+ 		\label{fig:step1}
 	\end{figure}
 	
-		Następnie przechodzimy po kolei po posortowanych punktach, odpowiednio zwiększając lub zmniejszając wartość balansu. W momencie dotarcia do punktu $H1$ wartość balansu jest równa 0, dlatego zapamiętujemy uderzenie $\{B1,H1\}$, a parę tych punktów możemy pominąć w dalszych poszukiwaniach.\\
-		Punkty, które zostaly znalezione do momentu znalezienia punktyu dzielącego płąszczyznę kwalifikujemy do osobnego podproblemu(Grupa 1), podobnie jak punkty jeszcze nieodwiedzone(Grupa 2).
+	Następnie przechodzimy po kolei po posortowanych punktach, odpowiednio zwiększając lub zmniejszając wartość balansu. W momencie dotarcia do punktu $H1$ wartość balansu jest równa $0$, dlatego zapamiętujemy uderzenie $\{B1,H1\}$, a parę tych punktów możemy pominąć w dalszych poszukiwaniach.\\~\\
+	Punkty, które zostaly znalezione do momentu znalezienia punktu dzielącego płaszczyznę kwalifikujemy do osobnego podproblemu (Grupa 1), podobnie jak punkty jeszcze nieodwiedzone (Grupa 2).
 	
 	\begin{figure}[H]
-	\centering
- 		 \includegraphics[scale=0.5]{images/step3.png}
- 		 \caption{Podział na podproblemy.}
- 		 \label{fig:step1}
+		\centering
+ 			\includegraphics[scale=0.5]{images/step3.png}
+ 			\caption{Podział na podproblemy.}
+ 		\label{fig:step1}
 	\end{figure}		
 
-Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary punktów, które dodajemy do wynikowego zbioru uderzeń.
+	Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary punktów, które dodajemy do wynikowego zbioru uderzeń.
 
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.4\linewidth}
-    \includegraphics[scale=0.5]{images/step41.png}
-    \caption{Grupa 1.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.4\linewidth}
-    \includegraphics[width=\linewidth]{images/step421.png}
-    \caption{Grupa 2.}
-  \end{subfigure}
-  
-  \caption{Rozwiązywanie podproblemów.}
-  \label{fig:coffee}
-\end{figure}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[scale=0.5]{images/step41.png}
+			\caption{Grupa 1.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[width=\linewidth]{images/step421.png}
+			\caption{Grupa 2.}
+		\end{subfigure}
+		\caption{Rozwiązywanie podproblemów.}
+		\label{fig:coffee}
+	\end{figure}
 
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.4\linewidth}
-    \includegraphics[scale=0.6]{images/step422.png}
-    \caption{Stworzenie kolejnego podproblemu.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.4\linewidth}
-    \includegraphics[scale=0.7]{images/step423.png}
-    \caption{Grupa 3.}
-  \end{subfigure}
-  
-  \caption{Rozwiązywanie podproblemów}
-  \label{fig:coffee}
-\end{figure}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[scale=0.6]{images/step422.png}
+			\caption{Stworzenie kolejnego podproblemu.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[scale=0.7]{images/step423.png}
+			\caption{Grupa 3.}
+		\end{subfigure}
+		\caption{Rozwiązywanie podproblemów}
+		\label{fig:coffee}
+	\end{figure}
 	
-		Gdy nie pozostały żadne nierozwiązane podproblemy(wszystkie punkty zostały dobrane w pary), możemy zwrócić ostateczny zbiór uderzeń $\mathbf{U} = \{\{B1,H1\},\{B2,H2\},\{B3,H3\},\{B4,H4\}\}$ będący wynikiem działania algorytmu.
-
+	Gdy nie pozostały żadne nierozwiązane podproblemy (wszystkie punkty zostały dobrane w pary), możemy zwrócić ostateczny zbiór uderzeń $\mathbf{U} = \{\{B1,H1\},\{B2,H2\},\{B3,H3\},\{B4,H4\}\}$ będący wynikiem działania algorytmu.
 		
 	\section{Znalezienie punktu dzielącego płaszczyznę.}
 	
@@ -265,6 +248,18 @@ Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary p
 
 	\textbf{Przykład:} 
 	
+	\begin{verbatim}
+		4
+		0.1,0.1
+		0.8,0.2
+		1.0,1.8
+		0.0,1.4
+		0.9,0.8
+		1.5,0.7
+		0.5,1.7
+		1.6,1.6
+	\end{verbatim}
+	
 	\subsection{Wyjście}
 	
 	Plik wyjściowy posiada następujące informacje:
@@ -273,6 +268,13 @@ Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary p
 	\end{itemize}
 	
 	\textbf{Przykład:} 
+	
+	\begin{verbatim}
+		1,1
+		2,2
+		3,3
+		4,4
+	\end{verbatim}
 	
 	\pagebreak
 	
@@ -319,7 +321,7 @@ Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary p
 			\end{invariant}
 			
 			\begin{proof}
-				Dość oczywisty - w tym kroku zmienna balance będzie wynosić $-1$ lub $1$, więc algorytm nie przerwie pętli i będzie się wykonywał dalej. 
+				Dość oczywisty - w tym kroku zmienna \texttt{balance} będzie wynosić $-1$ lub $1$, więc algorytm nie przerwie pętli i będzie się wykonywał dalej. 
 			\end{proof}
 			
 			\vspace{1em}
@@ -372,9 +374,9 @@ Postępując analogicznie w powstałych podproblemach, znajdujemy kolejne pary p
 			\end{invariant}
 			
 			\begin{proof}
-				Założmy, że znaleziony przez algorytm odcinek nie jest uderzeniem. Wobec tego, w pierwszym i ostatnim kroku algorytmu wartość \texttt{balance} albo się zwiększyła, albo się zmniejszyła. Dla ustalenia uwagi przyjmijmy, że w tych krokach rozpatrywano piłeczki i wartości zmiennej balance była zwiększana (drugi przypadek jest symetryczny).\\~\\
-				Po pierwszym kroku wartość zmiennej balance wynosiła $1$. Z kolei, jeżeli po ostatnim kroku zmienna balance wynosiła $0$, to przed nim musiała wynosić $-1$ (w tym kroku rozpatrywaliśmy piłeczkę). W związku z tym, w krokach od drugiego do przedostatniego wartość zmiennej balance zmieniała się od $1$ do $-1$. \\~\\
-				Ponieważ w jednym kroku zmienna balance może się mniejszyć maksymalnie o $1$, to po pewnym kroku między drugim a przedostatnim wartość zmiennej balance wynosiła $0$. Sprzeczność - algorytm powinien zakończyć się w momencie, gdy zmienna \texttt{balance} po raz pierwszy osiągnie wartość zerową.
+				Założmy, że znaleziony przez algorytm odcinek nie jest uderzeniem. Wobec tego, w pierwszym i ostatnim kroku algorytmu wartość \texttt{balance} albo się zwiększyła, albo się zmniejszyła. Dla ustalenia uwagi przyjmijmy, że w tych krokach rozpatrywano piłeczki i wartości zmiennej \texttt{balance} była zwiększana (drugi przypadek jest symetryczny).\\~\\
+				Po pierwszym kroku wartość zmiennej \texttt{balance} wynosiła $1$. Z kolei, jeżeli po ostatnim kroku zmienna \texttt{balance} wynosiła $0$, to przed nim musiała wynosić $-1$ (w tym kroku rozpatrywaliśmy piłeczkę). W związku z tym, w krokach od drugiego do przedostatniego wartość zmiennej \texttt{balance} zmieniała się od $1$ do $-1$. \\~\\
+				Ponieważ w jednym kroku zmienna \texttt{balance} może się mniejszyć maksymalnie o $1$, to po pewnym kroku między drugim a przedostatnim wartość zmiennej \texttt{balance} wynosiła $0$. Sprzeczność - algorytm powinien zakończyć się w momencie, gdy zmienna \texttt{balance} po raz pierwszy osiągnie wartość zerową.
 			\end{proof}
 		\end{addmargin}
 
