@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GolfApp.Structures;
 
-namespace GolfApp.Algorithm
+namespace GolfApp.Algorithm.Impl
 {
     public class BalancedHitFinderImpl : IBalancedHitFinder
     {
@@ -11,7 +11,7 @@ namespace GolfApp.Algorithm
         {
             var points = AllPoints(balls, holes);
             var minimalPoint = FindMinimalPoint(points);
-            
+
             MoveOriginToMinimalPoint(points, minimalPoint);
             SortPointsByTangent(points, minimalPoint);
 
@@ -22,6 +22,7 @@ namespace GolfApp.Algorithm
                 if (balance == 0)
                     return CreateHit(minimalPoint, point);
             }
+
             throw new ArgumentException();
         }
 
@@ -57,7 +58,7 @@ namespace GolfApp.Algorithm
         {
             var minimalX = minimalPoint.X;
             var minimalY = minimalPoint.Y;
-            
+
             foreach (var point in points)
             {
                 point.X -= minimalX;

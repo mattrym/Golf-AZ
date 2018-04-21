@@ -4,23 +4,11 @@ using System.Linq;
 
 namespace GolfApp.Structures
 {
-    public class Hit
-    {
-        public Ball Ball { get; }
-        public Hole Hole { get; }
-
-        public Hit(Ball ball, Hole hole)
-        {
-            this.Ball = ball;
-            this.Hole = hole;
-        }
-    }
-    
     public class Matching : IEnumerable<Hit>
     {
         public static readonly Matching Empty = new Matching();
 
-        private IList<Hit> _hits = new List<Hit>();
+        private IList<Hit> hits = new List<Hit>();
 
         private Matching()
         {
@@ -28,7 +16,17 @@ namespace GolfApp.Structures
 
         public Matching(Hit hit)
         {
-            _hits.Add(hit);
+            hits.Add(hit);
+        }
+
+        public bool IsPlanar()
+        {
+            for (var i = 0; i < hits.Count; ++i)
+            for (var j = i + 1; j < hits.Count; ++j)
+                if (hits[i].Intersects(hits[j]))
+                    return false;
+
+            return true;
         }
 
         public static Matching operator +(Matching matchingLeft, Matching matchingRight)
@@ -52,24 +50,24 @@ namespace GolfApp.Structures
 
         private Matching Add(Hit hit)
         {
-            _hits.Add(hit);
+            hits.Add(hit);
             return this;
         }
 
         private Matching Add(Matching matching)
         {
-            _hits = _hits.Concat(matching._hits).ToList();
+            hits = hits.Concat(matching.hits).ToList();
             return this;
         }
 
         public IEnumerator<Hit> GetEnumerator()
         {
-            return _hits.GetEnumerator();
+            return hits.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable) _hits).GetEnumerator();
+            return ((IEnumerable) hits).GetEnumerator();
         }
     }
 }

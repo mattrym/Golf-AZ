@@ -1,4 +1,6 @@
-﻿namespace GolfApp.Structures
+﻿using System;
+
+namespace GolfApp.Structures
 {
     public enum PointType
     {
@@ -6,14 +8,8 @@
         Hole
     }
 
-    public enum PointPosition
-    {
-        Clockwise,
-        Counterclockwise
-    }
-
     public abstract class Point
-    {   
+    {
         public double X { get; set; }
         public double Y { get; set; }
         public abstract PointType Type { get; }
@@ -23,6 +19,17 @@
         {
             X = x;
             Y = y;
+        }
+
+        public bool IsClockwise(Hit hit)
+        {
+            return this * hit < 0;
+        }
+
+        public static double operator *(Point point, Hit hit)
+        {
+            return (hit.Hole.X - hit.Ball.X) * (point.Y - hit.Ball.Y) -
+                   (point.X - hit.Ball.X) * (hit.Hole.Y - hit.Ball.Y);
         }
     }
 

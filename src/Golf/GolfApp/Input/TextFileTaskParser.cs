@@ -7,7 +7,6 @@ namespace GolfApp.Input
 {
     public class TextFileTaskParser : ITaskParser
     {
-        private const int BufferSize = 1024;
         private string FilePath { get; }
 
         public TextFileTaskParser(string filePath)
