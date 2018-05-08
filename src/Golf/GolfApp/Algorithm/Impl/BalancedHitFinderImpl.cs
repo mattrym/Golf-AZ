@@ -26,7 +26,7 @@ namespace GolfApp.Algorithm.Impl
             throw new ArgumentException();
         }
 
-        private List<Point> AllPoints(IEnumerable<Ball> balls, IEnumerable<Hole> holes)
+        private static List<Point> AllPoints(IEnumerable<Ball> balls, IEnumerable<Hole> holes)
         {
             var points = new List<Point>();
             points.AddRange(balls);
@@ -35,7 +35,7 @@ namespace GolfApp.Algorithm.Impl
             return points;
         }
 
-        private Point FindMinimalPoint(List<Point> points)
+        private static Point FindMinimalPoint(List<Point> points)
         {
             var minimalPoint = points.First();
             foreach (var point in points)
@@ -54,7 +54,7 @@ namespace GolfApp.Algorithm.Impl
             return minimalPoint;
         }
 
-        private void MoveOriginToMinimalPoint(List<Point> points, Point minimalPoint)
+        private static void MoveOriginToMinimalPoint(List<Point> points, Point minimalPoint)
         {
             var minimalX = minimalPoint.X;
             var minimalY = minimalPoint.Y;
@@ -66,7 +66,7 @@ namespace GolfApp.Algorithm.Impl
             }
         }
 
-        private void SortPointsByTangent(List<Point> points, Point minimalPoint)
+        private static void SortPointsByTangent(List<Point> points, Point minimalPoint)
         {
             points.Sort((p1, p2) =>
             {
@@ -78,7 +78,7 @@ namespace GolfApp.Algorithm.Impl
             });
         }
 
-        private Hit CreateHit(Point minimalPoint, Point point)
+        private static Hit CreateHit(Point minimalPoint, Point point)
         {
             if (minimalPoint.Type == point.Type)
                 throw new ArgumentException();

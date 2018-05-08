@@ -26,10 +26,23 @@ namespace GolfApp.Algorithm.Impl
 
             var balancedHit = _balancedHitFinder.FindBalancedHit(balls, holes);
 
-            var ballsClockwise = new List<Ball>();
-            var ballsCounterclockwise = new List<Ball>();
-            var holesClockwise = new List<Hole>();
-            var holesCounterclockwise = new List<Hole>();
+            CompartmentalizePoint(balls, holes, balancedHit, 
+                out var ballsClockwise, out var ballsCounterclockwise, 
+                out var holesClockwise, out var holesCounterclockwise);
+
+            return FindPlanarMatching(ballsClockwise, holesClockwise)
+                   + balancedHit
+                   + FindPlanarMatching(ballsCounterclockwise, holesCounterclockwise);
+        }
+
+        private static void CompartmentalizePoint(ICollection<Ball> balls, ICollection<Hole> holes, Hit balancedHit,
+            out List<Ball> ballsClockwise, out List<Ball> ballsCounterclockwise, 
+            out List<Hole> holesClockwise, out List<Hole> holesCounterclockwise)
+        {
+            ballsClockwise = new List<Ball>();
+            ballsCounterclockwise = new List<Ball>();
+            holesClockwise = new List<Hole>();
+            holesCounterclockwise = new List<Hole>();
 
             foreach (var ball in balls)
                 if (ball.IsClockwise(balancedHit))
@@ -41,10 +54,6 @@ namespace GolfApp.Algorithm.Impl
                     holesClockwise.Add(hole);
                 else
                     holesCounterclockwise.Add(hole);
-
-            return FindPlanarMatching(ballsClockwise, holesClockwise)
-                   + balancedHit
-                   + FindPlanarMatching(ballsCounterclockwise, holesCounterclockwise);
         }
     }
 }
