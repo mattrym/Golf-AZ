@@ -1,4 +1,4 @@
-﻿namespace GolfAppTests.UnitTests
+﻿namespace GolfAppTests.UnitTests.Algorithm
 {
     public class PlanarMatchingFinderTests
     {

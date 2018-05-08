@@ -1,4 +1,4 @@
-﻿namespace GolfAppTests.UnitTests
+﻿namespace GolfAppTests.UnitTests.IO
 {
     public class TextFileMatchingPrinterTests
     {
