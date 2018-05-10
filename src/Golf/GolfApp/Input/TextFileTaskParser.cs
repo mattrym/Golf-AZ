@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using GolfApp.Structures;
@@ -46,8 +48,8 @@ namespace GolfApp.Input
                 throw new TaskParserException();
 
             var coordinates = line.Trim().Split(',');
-            x = double.Parse(coordinates[0]);
-            y = double.Parse(coordinates[1]);
+            x = double.Parse(coordinates[0], CultureInfo.InvariantCulture);
+            y = double.Parse(coordinates[1], CultureInfo.InvariantCulture);
         }
 
         private static Ball ReadBall(TextReader reader, int id)

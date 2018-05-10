@@ -25,6 +25,8 @@ namespace GolfApp.Algorithm.Impl
                 return new Matching(new Hit(balls.First(), holes.First()));
 
             var balancedHit = _balancedHitFinder.FindBalancedHit(balls, holes);
+            balls.Remove(balancedHit.Ball);
+            holes.Remove(balancedHit.Hole);
 
             CompartmentalizePoint(balls, holes, balancedHit, 
                 out var ballsClockwise, out var ballsCounterclockwise, 
