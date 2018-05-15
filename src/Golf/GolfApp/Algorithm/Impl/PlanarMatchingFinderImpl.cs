@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GolfApp.Structures;
 
-namespace GolfApp.Algorithm.Impl
+namespace GolfApp.Algorithm
 {
     public class PlanarMatchingFinderImpl : IPlanarMatchingFinder
     {

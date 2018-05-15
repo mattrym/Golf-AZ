@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GolfApp.Structures;
 
-namespace GolfApp.Algorithm.Impl
+namespace GolfApp.Algorithm
 {
     public class BalancedHitFinderImpl : IBalancedHitFinder
     {
@@ -44,7 +44,7 @@ namespace GolfApp.Algorithm.Impl
                 {
                     minimalPoint = point;
                 }
-                else if (Math.Abs(point.Y - minimalPoint.Y) < Program.FloatEps
+                else if (Math.Abs(point.Y - minimalPoint.Y) < Constants.Eps
                          && point.X < minimalPoint.X)
                 {
                     minimalPoint = point;

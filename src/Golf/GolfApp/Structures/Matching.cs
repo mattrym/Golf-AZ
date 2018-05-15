@@ -10,7 +10,7 @@ namespace GolfApp.Structures
 
         private IList<Hit> hits = new List<Hit>();
 
-        private Matching()
+        public Matching()
         {
         }
 
