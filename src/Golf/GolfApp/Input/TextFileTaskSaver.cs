@@ -29,12 +29,12 @@ namespace GolfApp.Input
 
         private void WriteSize(StreamWriter writer, int size)
         {
-            writer.WriteLine(size);
+            writer.WriteLine("{0}", size);
         }
 
         private void WritePoint(StreamWriter writer, Point point)
         {
-            writer.WriteLine("{},{}", point.X, point.Y);
+            writer.WriteLine("{0},{1}", point.X, point.Y);
         }
 
     }

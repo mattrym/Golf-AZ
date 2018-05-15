@@ -32,7 +32,7 @@ namespace GolfUI
 
         private void LoadTask(object sender, RoutedEventArgs e)
         {
-            var dialogWindow = new OpenFileDialog { DefaultExt = ".txt" };
+            var dialogWindow = new OpenFileDialog { Filter = "Text files|*.txt", FilterIndex = 1 };
             if (dialogWindow.ShowDialog() == true)
             {
                 var filename = dialogWindow.FileName;
@@ -51,7 +51,7 @@ namespace GolfUI
 
         private void SaveTask(object sender, RoutedEventArgs e)
         {
-            var dialogWindow = new SaveFileDialog { DefaultExt = ".txt" };
+            var dialogWindow = new SaveFileDialog { Filter = "Text files|*.txt", DefaultExt = ".txt", AddExtension = true };
             if (dialogWindow.ShowDialog() == true)
             {
                 var filename = dialogWindow.FileName;
@@ -74,7 +74,7 @@ namespace GolfUI
 
         private void SaveMatching(object sender, RoutedEventArgs e)
         {
-            var dialogWindow = new SaveFileDialog { DefaultExt = ".txt" };
+            var dialogWindow = new SaveFileDialog { Filter = "Text files|*.txt", DefaultExt = ".txt", AddExtension = true };
             if (dialogWindow.ShowDialog() == true)
             {
                 var filename = dialogWindow.FileName;

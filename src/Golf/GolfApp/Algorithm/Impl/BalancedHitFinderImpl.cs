@@ -25,7 +25,6 @@ namespace GolfApp.Algorithm
                 if (balance == 0)
                     return CreateHit(minimalPoint, point);
             }
-
             throw new ArgumentException();
         }
 

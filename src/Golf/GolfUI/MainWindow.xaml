@@ -15,6 +15,17 @@
                 <TextBlock Text="{Binding Y}" />
             </TextBlock>
         </DataTemplate>
+        <Style TargetType="Ellipse" x:Key="PointColor">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Type}" Value="Ball">
+                    <Setter Property="Fill" Value="White" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Type}" Value="Hole">
+                    <Setter Property="Fill" Value="Black" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <ui:IsPointConverter x:Key="IsPointConverter" />
         <ui:MathConverter x:Key="MathConverter" />
     </Window.Resources>
     <DockPanel>
@@ -48,7 +59,7 @@
                     <CollectionViewSource x:Key="Holes" Source="{Binding Holes}" />
                     <CollectionViewSource x:Key="Hits" Source="{Binding Hits}" />
                     <DataTemplate DataType="{x:Type golf:Point}">
-                        <Ellipse DataContext="{Binding}" Height="10" Width="10" Fill="Black" />
+                        <Ellipse DataContext="{Binding}" Height="10" Width="10" Stroke="Black" Style="{StaticResource PointColor}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type golf:Hit}">
                         <Line DataContext="{Binding}" X1="{Binding Ball.X}" Y1="{Binding Ball.Y}" X2="{Binding Hole.X}" Y2="{Binding Hole.Y}"

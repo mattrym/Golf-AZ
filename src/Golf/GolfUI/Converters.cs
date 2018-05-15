@@ -8,6 +8,23 @@ using System.Windows.Data;
 
 namespace GolfUI
 {
+
+    public class IsPointConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return false;
+            return ((Type) value).BaseType == typeof(GolfApp.Structures.Point);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception("Can't convert back");
+        }
+    }
+
+
     // Does a math equation on the bound value.
     // Use @VALUE in your mathEquation as a substitute for bound value
     // Operator order is parenthesis first, then Left-To-Right (no operator precedence)
