@@ -11,9 +11,12 @@ namespace GolfApp.Algorithm
         {
             var points = AllPoints(balls, holes);
             var minimalPoint = FindMinimalPoint(points);
+            var minimalX = minimalPoint.X;
+            var minimalY = minimalPoint.Y;
 
             MoveOriginToMinimalPoint(points, minimalPoint);
             SortPointsByTangent(points, minimalPoint);
+            MoveOriginBack(points, minimalX, minimalY);
 
             var balance = 0;
             foreach (var point in points)
@@ -24,6 +27,15 @@ namespace GolfApp.Algorithm
             }
 
             throw new ArgumentException();
+        }
+
+        private void MoveOriginBack(List<Point> points, double minimalX, double minimalY)
+        {
+            foreach (var point in points)
+            {
+                point.X += minimalX;
+                point.Y += minimalY;
+            }
         }
 
         private static List<Point> AllPoints(IEnumerable<Ball> balls, IEnumerable<Hole> holes)

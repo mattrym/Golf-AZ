@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:GolfUI"
         xmlns:golf="clr-namespace:GolfApp.Structures;assembly=GolfApp"
         mc:Ignorable="d"
         Title="GolfUI" Height="600" Width="800">
@@ -14,6 +15,7 @@
                 <TextBlock Text="{Binding Y}" />
             </TextBlock>
         </DataTemplate>
+        <ui:MathConverter x:Key="MathConverter" />
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -69,12 +71,12 @@
                     <Style TargetType="ContentPresenter">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Type}" Value="Ball">
-                                <Setter Property="Canvas.Left" Value="{Binding X}" />
-                                <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                                <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
+                                <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Type}" Value="Hole">
-                                <Setter Property="Canvas.Left" Value="{Binding X}" />
-                                <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                                <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
+                                <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

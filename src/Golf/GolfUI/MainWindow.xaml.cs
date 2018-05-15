@@ -1,5 +1,4 @@
 ﻿using GolfApp.Algorithm;
-using GolfApp.Algorithm.Impl;
 using GolfApp.Input;
 using GolfApp.Output;
 using GolfApp.Structures;
@@ -41,7 +40,7 @@ namespace GolfUI
 
                 try
                 {
-                    State.Task = taskParser.Parse();
+                    State.LoadTask(taskParser.Parse());
                 }
                 catch (Exception)
                 {

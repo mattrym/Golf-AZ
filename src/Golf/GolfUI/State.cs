@@ -1,5 +1,4 @@
 ﻿using GolfApp.Algorithm;
-using GolfApp.Algorithm.Impl;
 using GolfApp.Structures;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace GolfUI
         private IPlanarMatchingFinder PlanarMatchingFinder { get; }
         private IBalancedHitFinder BalancedHitFinder { get; }
 
-        public GolfApp.Structures.Task Task { get; set; } = new GolfApp.Structures.Task(
+        public GolfApp.Structures.Task Task { get; private set; } = new GolfApp.Structures.Task(
                 new List<GolfApp.Structures.Ball>
                 {
                     new GolfApp.Structures.Ball(0, 10, 10),
@@ -49,6 +48,13 @@ namespace GolfUI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        internal void LoadTask(Task task)
+        {
+            Task = task;
+            NotifyPropertyChanged("Balls");
+            NotifyPropertyChanged("Holes");
+        }
+
         internal void FindPlanarMatching()
         {
             Matching = PlanarMatchingFinder.FindPlanarMatching(Task.Balls, Task.Holes);
@@ -58,6 +64,7 @@ namespace GolfUI
         internal void ClearMatching()
         {
             Matching = new Matching();
+            NotifyPropertyChanged("Hits");
         }
 
     }
