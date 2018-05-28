@@ -4,8 +4,8 @@ namespace GolfApp.Structures
 {
     public class Task
     {
-        public IList<Ball> Balls { get; } = new List<Ball>();
-        public IList<Hole> Holes { get; } = new List<Hole>();
+        public IList<Ball> Balls { get; set; } = new List<Ball>();
+        public IList<Hole> Holes { get; set; } = new List<Hole>();
         public int Size => Balls.Count;
 
         public Task()

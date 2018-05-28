@@ -96,5 +96,16 @@ namespace GolfUI
             State.ClearMatching();
         }
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            double value;
+            if (!double.TryParse(TextBoxX.Text, out value) || !double.TryParse(TextBoxY.Text, out value))
+            {
+                MessageBox.Show("Invalid point coordinates ! (Should be double or integer)");
+                return;;
+            }
+            
+            State.AddPoint();
+        }
     }
 }

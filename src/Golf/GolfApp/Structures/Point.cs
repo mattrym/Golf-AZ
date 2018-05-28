@@ -40,7 +40,7 @@ namespace GolfApp.Structures
             Id = id;
         }
 
-        public int Id { get; }
+        public int Id { get; set; }
         public override PointType Type => PointType.Ball;
         public override int Value => 1;
     }
@@ -52,7 +52,7 @@ namespace GolfApp.Structures
             Id = id;
         }
 
-        public int Id { get; }
+        public int Id { get; set; }
         public override PointType Type => PointType.Hole;
         public override int Value => -1;
     }

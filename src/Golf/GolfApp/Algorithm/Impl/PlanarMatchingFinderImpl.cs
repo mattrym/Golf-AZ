@@ -17,7 +17,7 @@ namespace GolfApp.Algorithm
         public Matching FindPlanarMatching(ICollection<Ball> balls, ICollection<Hole> holes)
         {
             if (balls.Count != holes.Count)
-                throw new ArgumentException();
+                throw new ArgumentException("Balls and holes count should be equal !");
 
             if (balls.Count == 0)
                 return Matching.Empty;

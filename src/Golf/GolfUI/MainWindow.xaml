@@ -6,13 +6,20 @@
         xmlns:ui="clr-namespace:GolfUI"
         xmlns:golf="clr-namespace:GolfApp.Structures;assembly=GolfApp"
         mc:Ignorable="d"
+        Name="MyMainWindow"
         Title="GolfUI" Height="600" Width="800">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ContextMenu x:Key="DeleteContextMenu">
+
+        </ContextMenu>
         <DataTemplate x:Key="Point" DataType="{x:Type golf:Point}">
             <TextBlock>
+                <TextBlock Text="("/>
                 <TextBlock Text="{Binding X}" />
-                <TextBlock Text="," />
+                <TextBlock Text=", " />
                 <TextBlock Text="{Binding Y}" />
+                <TextBlock Text=")" />
             </TextBlock>
         </DataTemplate>
         <Style TargetType="Ellipse" x:Key="PointColor">
@@ -26,7 +33,7 @@
             </Style.Triggers>
         </Style>
         <ui:IsPointConverter x:Key="IsPointConverter" />
-        <ui:MathConverter x:Key="MathConverter" />
+        <ui:PointToScaleConverter x:Key="PointToScaleConverter" />
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -40,20 +47,67 @@
                 <MenuItem Header="_Clear" Click="ClearMatching" />
             </MenuItem>
         </Menu>
-        <Grid>
+        <Grid Background="#FF1F5EF0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="9*" />
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top">
-                <Label Content="Balls" />
-                <ListView Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Balls}" ItemTemplate="{StaticResource Point}" />
-                <Label Content="Holes" />
-                <ListView Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Holes}" ItemTemplate="{StaticResource Point}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Label Content="Points type" Grid.Column="1" Grid.Row="0" FontSize="18" Foreground="#FFF9F2F2" FontWeight="Bold"/>
+            <StackPanel  Grid.Column="1" Grid.Row="1">
+                <ComboBox  Margin="10" FontSize="16" ItemsSource="{Binding PointTypes}" SelectedItem="{Binding CurrentPointType}"/>
             </StackPanel>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-            <ItemsControl Background="White" Name="DrawingControl" Grid.Column="1">
+            <Label Content="List of points" Grid.Column="1" Grid.Row="2" FontSize="18" Foreground="#FFF3E2E2" BorderThickness="0" FontWeight="Bold"/>
+            <DockPanel Grid.Column="1" Grid.Row="3" Visibility="{Binding Path=IsBallTypeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ListView Margin="10" BorderThickness="0" ItemsSource="{Binding Balls}" ItemTemplate="{StaticResource Point}">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Remove"
+                                      Command="{Binding RemoveItem}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+            </DockPanel>
+            <DockPanel Grid.Column="1" Grid.Row="3" Visibility="{Binding Path=IsHoleTypeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ListView Margin="10" BorderThickness="0" ItemsSource="{Binding Holes}" ItemTemplate="{StaticResource Point}" >
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Remove"
+                                      Command="{Binding RemoveItem}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+            </DockPanel>
+            <StackPanel Grid.Row="4" Grid.Column="1" Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                        <Label FontSize="14" Foreground="#FFF3E2E2" FontWeight="Bold">X:</Label>
+                        <TextBox Name="TextBoxX" VerticalAlignment="Center" Width="100" Text="{Binding NewPointXValue}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                        <Label FontSize="14" Foreground="#FFF3E2E2" FontWeight="Bold" >Y:</Label>
+                        <TextBox Name="TextBoxY" VerticalAlignment="Center" Width="100" Text="{Binding NewPointYValue}"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="Add point" Click="ButtonBase_OnClick"/>
+                </Grid>
+            </StackPanel>
+            <ItemsControl  Grid.Column="0" Grid.Row="0" Grid.RowSpan="5"  Background="White" Name="DrawingControl">
                 <ItemsControl.Resources>
                     <CollectionViewSource x:Key="Balls" Source="{Binding Balls}" />
                     <CollectionViewSource x:Key="Holes" Source="{Binding Holes}" />
@@ -62,8 +116,41 @@
                         <Ellipse DataContext="{Binding}" Height="10" Width="10" Stroke="Black" Style="{StaticResource PointColor}" />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type golf:Hit}">
-                        <Line DataContext="{Binding}" X1="{Binding Ball.X}" Y1="{Binding Ball.Y}" X2="{Binding Hole.X}" Y2="{Binding Hole.Y}"
-                              StrokeThickness="1" Stroke="Black" SnapsToDevicePixels="True" />
+                        <Line DataContext="{Binding}"
+                              StrokeThickness="1" Stroke="Black" SnapsToDevicePixels="True">
+                                <Line.X1>
+                                <MultiBinding Converter="{StaticResource PointToScaleConverter}" >
+                                        <Binding Path="Ball.X"/>
+                                        <Binding ElementName="MyMainWindow" Path="DataContext.PointMinX"/>
+                                        <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxX"/>
+                                        <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                    </MultiBinding>
+                                </Line.X1>
+                            <Line.Y1>
+                                <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="r">
+                                    <Binding Path="Ball.Y"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
+                                    <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Line.Y1>
+                            <Line.X2>
+                                <MultiBinding Converter="{StaticResource PointToScaleConverter}" >
+                                    <Binding Path="Hole.X"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMinX"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxX"/>
+                                    <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Line.X2>
+                            <Line.Y2>
+                                <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="r">
+                                    <Binding Path="Hole.Y"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
+                                    <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
+                                    <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Line.Y2>
+                        </Line>
                     </DataTemplate>
                 </ItemsControl.Resources>
                 <ItemsControl.ItemsPanel>
@@ -82,13 +169,48 @@
                     <Style TargetType="ContentPresenter">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Type}" Value="Ball">
-                                <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
-                                <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
-                            </DataTrigger>
+                                <Setter Property="Canvas.Left">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="p">
+                                            <Binding Path="X"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMinX"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxX"/>
+                                            <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Canvas.Top">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="pr">
+                                            <Binding Path="Y"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
+                                            <Binding ElementName="DrawingControl" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>                            </DataTrigger>
                             <DataTrigger Binding="{Binding Type}" Value="Hole">
-                                <Setter Property="Canvas.Left" Value="{Binding X, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
-                                <Setter Property="Canvas.Top" Value="{Binding Y, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-5}" />
-                            </DataTrigger>
+                                <Setter Property="Canvas.Left">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="p">
+                                            <Binding Path="X"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMinX"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxX"/>
+                                            <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Canvas.Top">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource PointToScaleConverter}" ConverterParameter="pr">
+                                            <Binding Path="Y"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
+                                            <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
+                                            <Binding ElementName="DrawingControl" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>                            
+                                </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ItemsControl.ItemContainerStyle>
