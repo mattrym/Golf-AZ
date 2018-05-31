@@ -5,6 +5,6 @@ namespace GolfApp.Algorithm
 {
     public interface IBalancedHitFinder
     {
-        Hit FindBalancedHit(IEnumerable<Ball> balls, IEnumerable<Hole> holes);
+        Hit FindBalancedHit(IList<Ball> balls, IList<Hole> holes);
     }
 }

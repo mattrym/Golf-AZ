@@ -97,10 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GolfApp\GolfApp.csproj">
-      <Project>{678064ed-a962-4a4e-bd94-2c1895ee65c1}</Project>
+      <Project>{ea1cca4e-563f-4410-8d02-21dec20033e4}</Project>
       <Name>GolfApp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

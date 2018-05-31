@@ -5,6 +5,6 @@ namespace GolfApp.Algorithm
 {
     public interface IPlanarMatchingFinder
     {
-        Matching FindPlanarMatching(ICollection<Ball> balls, ICollection<Hole> holes);
+        Matching FindPlanarMatching(IList<Ball> balls, IList<Hole> holes);
     }
 }

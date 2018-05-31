@@ -5,17 +5,20 @@ using GolfApp.Structures;
 
 namespace GolfApp.Algorithm
 {
-    public class PlanarMatchingFinderImpl : IPlanarMatchingFinder
+    public class PlanarMatchingFinder : IPlanarMatchingFinder
     {
         private readonly IBalancedHitFinder _balancedHitFinder;
 
-        public PlanarMatchingFinderImpl(IBalancedHitFinder balancedHitFinder)
+        public PlanarMatchingFinder(IBalancedHitFinder balancedHitFinder)
         {
             this._balancedHitFinder = balancedHitFinder;
         }
 
-        public Matching FindPlanarMatching(ICollection<Ball> balls, ICollection<Hole> holes)
+        public Matching FindPlanarMatching(IList<Ball> balls, IList<Hole> holes)
         {
+            if (balls == null || holes == null)
+                throw new ArgumentException("Balls and holes cannot be null !");
+
             if (balls.Count != holes.Count)
                 throw new ArgumentException("Balls and holes count should be equal !");
 

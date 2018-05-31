@@ -131,7 +131,7 @@
                                     <Binding Path="Ball.Y"/>
                                     <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
                                     <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
-                                    <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                    <Binding ElementName="DrawingControl" Path="ActualHeight"/>
                                 </MultiBinding>
                             </Line.Y1>
                             <Line.X2>
@@ -147,7 +147,7 @@
                                     <Binding Path="Hole.Y"/>
                                     <Binding ElementName="MyMainWindow" Path="DataContext.PointMinY"/>
                                     <Binding ElementName="MyMainWindow" Path="DataContext.PointMaxY"/>
-                                    <Binding ElementName="DrawingControl" Path="ActualWidth"/>
+                                    <Binding ElementName="DrawingControl" Path="ActualHeight"/>
                                 </MultiBinding>
                             </Line.Y2>
                         </Line>

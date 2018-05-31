@@ -5,10 +5,15 @@ using GolfApp.Structures;
 
 namespace GolfApp.Algorithm
 {
-    public class BalancedHitFinderImpl : IBalancedHitFinder
+    public class BalancedHitFinder : IBalancedHitFinder
     {
-        public Hit FindBalancedHit(IEnumerable<Ball> balls, IEnumerable<Hole> holes)
+        public Hit FindBalancedHit(IList<Ball> balls, IList<Hole> holes)
         {
+            if(balls == null || holes == null)
+                throw new ArgumentException("Collections cannot be null");
+            if(balls.Count != holes.Count)
+                throw new ArgumentException("Collections should be of equal size");
+
             var points = AllPoints(balls, holes);
             var minimalPoint = FindMinimalPoint(points);
             var minimalX = minimalPoint.X;

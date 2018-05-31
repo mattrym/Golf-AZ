@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfUI", "GolfUI\GolfUI.csproj", "{160D177E-C910-4D44-828C-C85CAA968AFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfApp", "GolfApp\GolfApp.csproj", "{678064ED-A962-4A4E-BD94-2C1895EE65C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfApp", "GolfApp\GolfApp.csproj", "{EA1CCA4E-563F-4410-8D02-21DEC20033E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfAppTests", "GolfAppTests\GolfAppTests.csproj", "{B1FC844D-97E4-4F2A-8E79-96FB00154C68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfAppTests", "GolfAppTests\GolfAppTests.csproj", "{7091CB3B-ADBB-46BB-9C43-395ADB42E9C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{160D177E-C910-4D44-828C-C85CAA968AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{160D177E-C910-4D44-828C-C85CAA968AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{160D177E-C910-4D44-828C-C85CAA968AFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{678064ED-A962-4A4E-BD94-2C1895EE65C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{678064ED-A962-4A4E-BD94-2C1895EE65C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{678064ED-A962-4A4E-BD94-2C1895EE65C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{678064ED-A962-4A4E-BD94-2C1895EE65C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1FC844D-97E4-4F2A-8E79-96FB00154C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1FC844D-97E4-4F2A-8E79-96FB00154C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1FC844D-97E4-4F2A-8E79-96FB00154C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1FC844D-97E4-4F2A-8E79-96FB00154C68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA1CCA4E-563F-4410-8D02-21DEC20033E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA1CCA4E-563F-4410-8D02-21DEC20033E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA1CCA4E-563F-4410-8D02-21DEC20033E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA1CCA4E-563F-4410-8D02-21DEC20033E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7091CB3B-ADBB-46BB-9C43-395ADB42E9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7091CB3B-ADBB-46BB-9C43-395ADB42E9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7091CB3B-ADBB-46BB-9C43-395ADB42E9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7091CB3B-ADBB-46BB-9C43-395ADB42E9C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

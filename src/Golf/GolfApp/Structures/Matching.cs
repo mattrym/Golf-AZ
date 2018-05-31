@@ -8,7 +8,7 @@ namespace GolfApp.Structures
     {
         public static readonly Matching Empty = new Matching();
 
-        private IList<Hit> hits = new List<Hit>();
+        private IList<Hit> _hits = new List<Hit>();
 
         public Matching()
         {
@@ -16,14 +16,17 @@ namespace GolfApp.Structures
 
         public Matching(Hit hit)
         {
-            hits.Add(hit);
+            _hits.Add(hit);
         }
-
+        public Matching(IList<Hit> hits)
+        {
+            _hits = hits;
+        }
         public bool IsPlanar()
         {
-            for (var i = 0; i < hits.Count; ++i)
-            for (var j = i + 1; j < hits.Count; ++j)
-                if (hits[i].Intersects(hits[j]))
+            for (var i = 0; i < _hits.Count; ++i)
+            for (var j = i + 1; j < _hits.Count; ++j)
+                if (_hits[i].Intersects(_hits[j]))
                     return false;
 
             return true;
@@ -50,24 +53,24 @@ namespace GolfApp.Structures
 
         private Matching Add(Hit hit)
         {
-            hits.Add(hit);
+            _hits.Add(hit);
             return this;
         }
 
         private Matching Add(Matching matching)
         {
-            hits = hits.Concat(matching.hits).ToList();
+            _hits = _hits.Concat(matching._hits).ToList();
             return this;
         }
 
         public IEnumerator<Hit> GetEnumerator()
         {
-            return hits.GetEnumerator();
+            return _hits.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable) hits).GetEnumerator();
+            return ((IEnumerable) _hits).GetEnumerator();
         }
     }
 }

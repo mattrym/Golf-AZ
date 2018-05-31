@@ -132,8 +132,8 @@ namespace GolfUI
 
         public State()
         {
-            BalancedHitFinder = new BalancedHitFinderImpl();
-            PlanarMatchingFinder = new PlanarMatchingFinderImpl(BalancedHitFinder);
+            BalancedHitFinder = new BalancedHitFinder();
+            PlanarMatchingFinder = new PlanarMatchingFinder(BalancedHitFinder);
 
             Balls = new ObservableCollection<Ball>(Task.Balls);
             Holes = new ObservableCollection<Hole>(Task.Holes);
