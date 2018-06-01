@@ -76,9 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComplexityTests\ComputationalComplexityTests.cs" />
-    <Compile Include="CorectnessTests\TestCaseChecker.cs" />
-    <Compile Include="CorectnessTests\TestCases.cs" />
+    <Compile Include="CorectnessTests\CorectnessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Algorithm\BalancedHitFinderTests.cs" />
     <Compile Include="UnitTests\Algorithm\PlanarMatchingFinderTests.cs" />

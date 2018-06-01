@@ -48,20 +48,8 @@ namespace GolfUI
         private IBalancedHitFinder BalancedHitFinder { get; }
 
         public GolfApp.Structures.Task Task { get; private set; } = new GolfApp.Structures.Task(
-                new List<GolfApp.Structures.Ball>
-                {
-                    new GolfApp.Structures.Ball(0, 10, 10),
-                    new GolfApp.Structures.Ball(1, 80, 20),
-                    new GolfApp.Structures.Ball(2, 100, 180),
-                    new GolfApp.Structures.Ball(3, 0, 140)
-                },
-                new List<GolfApp.Structures.Hole>
-                {
-                    new GolfApp.Structures.Hole(0, 90, 80),
-                    new GolfApp.Structures.Hole(1, 150, 70),
-                    new GolfApp.Structures.Hole(2, -50, 170),
-                    new GolfApp.Structures.Hole(3, 160, 160)
-                }
+                new List<GolfApp.Structures.Ball>(),
+                new List<GolfApp.Structures.Hole>()
             );
 
 
@@ -145,23 +133,23 @@ namespace GolfUI
 
         private void UpdateBounds()
         {
-            var ballsMaxX = Task.Balls.Max(x => x.X);
-            var holesMaxX = Task.Holes.Max(x => x.X);
+            var ballsMaxX = (Task.Balls.Count > 0)? Task.Balls.Max(x => x.X) : 0;
+            var holesMaxX = (Task.Holes.Count > 0) ? Task.Holes.Max(x => x.X) : 0;
             PointMaxX = ballsMaxX < holesMaxX ? holesMaxX : ballsMaxX;
             NotifyPropertyChanged("PointMaxX");
 
-            var ballsMinX = Task.Balls.Min(x => x.X);
-            var holesMinX = Task.Holes.Min(x => x.X);
+            var ballsMinX = (Task.Balls.Count > 0) ? Task.Balls.Min(x => x.X) : 0;
+            var holesMinX = (Task.Holes.Count > 0) ? Task.Holes.Min(x => x.X) : 0;
             PointMinX = ballsMinX > holesMinX ? holesMinX : ballsMinX;
             NotifyPropertyChanged("PointMinX");
 
-            var ballsMaxY = Task.Balls.Max(x => x.Y);
-            var holesMaxY = Task.Holes.Max(x => x.Y);
+            var ballsMaxY = (Task.Balls.Count > 0) ? Task.Balls.Max(x => x.Y) : 0;
+            var holesMaxY = (Task.Holes.Count > 0) ? Task.Holes.Max(x => x.Y) : 0;
             PointMaxY = ballsMaxY < holesMaxY ? holesMaxY : ballsMaxY;
             NotifyPropertyChanged("PointMaxY");
 
-            var ballsMinY = Task.Balls.Min(x => x.Y);
-            var holesMinY = Task.Holes.Min(x => x.Y);
+            var ballsMinY = (Task.Balls.Count > 0) ? Task.Balls.Min(x => x.Y) : 0;
+            var holesMinY = (Task.Holes.Count > 0) ? Task.Holes.Min(x => x.Y) : 0;
             PointMinY = ballsMinY > holesMinY ? holesMinY : ballsMinY;
             NotifyPropertyChanged("PointMinY");
         }
@@ -210,7 +198,7 @@ namespace GolfUI
 
             if (_currentPointType == PointType.Ball)
             {
-                var maxId = Balls.OrderByDescending(x => x.Id).First().Id;
+                var maxId = (Balls.Count > 0) ? Balls.OrderByDescending(x => x.Id).First().Id : -1;
                 var ball = new Ball(maxId+1, NewPointXValue, NewPointYValue);
                 Task.Balls.Add(ball);
                 Balls.Add(ball);
@@ -218,7 +206,7 @@ namespace GolfUI
             }
             else
             {
-                var maxId = Holes.OrderByDescending(x => x.Id).First().Id;
+                var maxId = (Holes.Count > 0) ? Holes.OrderByDescending(x => x.Id).First().Id : -1;
                 var hole = new Hole(maxId+1,NewPointXValue, NewPointYValue);
                 Task.Holes.Add(hole);
                 Holes.Add(hole);

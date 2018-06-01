@@ -62,6 +62,7 @@
     <Compile Include="Structures\Task.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\GolfApp.csproj.CoreCompileInputs.cache" />
     <None Include="obj\Debug\GolfApp.csprojResolveAssemblyReference.cache" />

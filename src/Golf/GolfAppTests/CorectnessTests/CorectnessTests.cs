@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
-using System.Text;
 using FluentAssertions;
 using GolfApp.Algorithm;
 using GolfApp.Structures;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace GolfAppTests.ComplexityTests
+namespace GolfAppTests.CorectnessTests
 {
-    public class ComputationalComplexityTests
+    public class CorectnessTests
     {
         private readonly ITestOutputHelper _testOutputHelper;
+        private readonly IPlanarMatchingFinder _planarMatchingFinder;
 
-        public ComputationalComplexityTests(ITestOutputHelper testOutputHelper)
+        public CorectnessTests(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
+            var balancedHitFinder = new BalancedHitFinder();
+            _planarMatchingFinder = new PlanarMatchingFinder(balancedHitFinder);
         }
 
         [Fact]
         void PlanarMatchingFinder_CheckComplexity()
         {
-            var balancedHitFinder = new BalancedHitFinder();
-            var planarMatchingFinder = new PlanarMatchingFinder(balancedHitFinder);
             var stopwatch = new Stopwatch();
             var executions = new List<Tuple<int, long>>();
 
@@ -37,17 +35,25 @@ namespace GolfAppTests.ComplexityTests
                 stopwatch.Reset();
                 stopwatch.Start();
 
-                var matching = planarMatchingFinder.FindPlanarMatching(task.Balls, task.Holes);
-                
-                stopwatch.Stop();
-
-                var planar = matching.IsPlanar();
-                planar.Should().BeTrue();
-                
+                var matching = _planarMatchingFinder.FindPlanarMatching(task.Balls, task.Holes);
+         
+                stopwatch.Stop();       
                 executions.Add(new Tuple<int, long>(i, stopwatch.ElapsedTicks));
             }
 
             PrintChartToFile(executions);
+        }
+
+        [Fact]
+        public void PlanarMatchingFinder_CheckCorectness()
+        {
+            for (int i = 1; i < 500; i++)
+            {
+                var task = GenerateTask(i);
+                var matching = _planarMatchingFinder.FindPlanarMatching(task.Balls, task.Holes);
+
+                matching.IsPlanar().Should().BeTrue();
+            }
         }
 
         private void PrintChartToFile(List<Tuple<int, long>> executions)
@@ -72,7 +78,7 @@ namespace GolfAppTests.ComplexityTests
         private Task GenerateTask(int size)
         {
             var task = new Task();
-            int radius = 10;
+            int radius = 100;
             Vector3 pointVector = new Vector3(radius, 0, 0); //the vector you keep rotating
 
             float angle = (float)Math.PI*2 / (float)(size*2+1);

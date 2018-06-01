@@ -453,18 +453,146 @@
 	
 	\subsection{Architektura rozwiązania}
 	
-	% TODO: wrzucić diagram klas i krótko opisać, w jaki sposób są przetwarzane dane wejściowe, jak działa algorytm i co jest na wyjściu. Nie skupiać się na architekturze aplikacji okienkowej i testach
+	W celu reprezentowania zadania o określonym rozmiarze została stworzona klasa \textit{Task}. Zawiera ona kolekcje obiektów typu \textit{Ball} i \textit{Hole}. Obiekty te dziedziczą po abstrakcyjnej klasie \textit{Point} i odpowiadają piłkom oraz dołkom z rozważanego problemu. Pochodne klasy {Point} zawierają pole informujące o typie punktu oraz wartość pola \textit{Value} odpowiednią dla tego typu.
+		\begin{figure}[H]
+		\centering
+		
+ 			\includegraphics[scale=0.5]{images/structure_diagram.png}
+ 			\caption{Struktura obiektów.}
+ 		\label{fig:structure_diagram}
+	\end{figure}	
+
+Dla realizacji algorytmu zostały zrealizowane interfejsy \textit{IBalancedHitFinder} oraz \textit{IPlanarMatchingFinder}.
+Ten pierwszy implementowany przez klase \textit{BalancedHitFinder} i posiada metodę \textit{FindBalancedHit} służąca do znalezienia zbalansowanego uderzenia, przyjmując jako argumenty kolekcje obiektów odpowiadające piłkom oraz dołkom. \\
+Z interfejsu tego korzysta klasa \textit{PlanarMatchingFinder}, która w konstruktorze przyjmuje obiekt implementujący go. Za pomocą metody \textit{FindPlanarMatching} wywoływane jest rozwiązanie problemu i w przypadku powodzenia wynik jest zwracany za pomocą klasy \textit{Matching}, która zawiera kolekcję obiektów 
+\textit{Hit} zawierających informacje o parze punktów (piłka i dołek) pomiędzy którymi przebiega uderzenie.
+
+	\begin{figure}[H]
+		\centering
+		
+ 			\includegraphics[scale=0.6]{images/algorithm_diagram.png}
+ 			\caption{Obiekty realizujące algorytm.}
+ 		\label{fig:algorithm_diagram}
+	\end{figure}	
+
+Operacje wejścia wykonywane są za pomocą klasy \textit{TextFileTaskParser} implementującej interfejs \textit{ITaskParser}. Metoda \textit{Parse} przyjmuje jako argument ściezkę pliku tekstowego w którym zapisane są w odpowiednim formacie dane wejściowe dla zadania i zwraca obiekt \textit{Task} reprezentujący to zadanie. \\
+Zapisywanie obecnego zadania wykonywane jest za pomocą klasy \textit{TextFileTaskSaver} implementującej interfejs \textit{TextFileTaskSaver}. Za pomocą metody \textit{Save}, któRa przyjmuje jako argument obiekt typu \textit{Task} zawierający dane zadania i zapisuje je w określonym formacie do pliku tekstowego.\\
+Natomiast zapisywanie znalezionego rozwiązania realizuje klasa \textit{TextFileMatchingPrinter} implementująca interfejs \textit{IMatchingPrinter}. Zawiera on metodę \textit{Print}, która jako argument przyjmuje obiekt klasy \textit{Matching} i zapisuje w określonym formacie zawarte w nim uderzenia do pliku tekstowego.
 	
+			\begin{figure}[H]
+				\centering	
+ 				\includegraphics[scale=0.6]{images/unittests.png}
+ 				\caption{Testy jednostkowe.}
+ 				\label{fig:unit_tests}
+			\end{figure} 
+			
 	\subsection{Testy jednostkowe}
 	
-	% TODO: co było zrobione w testach, screen z zielonych testów
+	W projekcie \textit{GolfAppTests} znajdują się test jednostkowe dotyczące projektu \textit{GolfApp}. Sprawdzają one poprawność logiki klas wykonujących algorytm oraz zachowanie w przypadku różnych (także błędnych) argumentów metod publicznych. \\
+	Test zostały wykonane przy wykorzystaniu frameworku do tesowanie \textit{xUnit}. Poniżej został załączony zrzut ekranu przedstwiające listę testów i status ich wykonania. 
+	
+		\begin{figure}[H]
+		\centering
+		
+ 			\includegraphics[scale=0.6]{images/unittests.png}
+ 			\caption{Testy jednostkowe.}
+ 		\label{fig:unit_tests}
+	\end{figure}	
 	
 	\subsection{Testy akceptacyjne i wydajnościowe}
 	
-	% TODO: przykłady wraz ze znalezionymi rozwiązaniami, dodatkowo można walnąć ze dwa testy pokazujące to, że czas rośnie n^2 * log n
+
 	
 	\section{Instrukcja użytkownika}
+		W celu uruchomienia aplikacji należy uruchomić plik \textit{GolfUI.exe}. \\
+		Po poprawnym uruchomieniu powinno pojawić się okno początkowe programu. 
+		\begin{figure}[H]
+		\centering
+		
+ 			\includegraphics[scale=0.6]{images/initial.png}
+ 			\caption{Okno początkowe.}
+ 		\label{fig:algorithm_diagram}
+	\end{figure}	
 	
-	% TODO: To na koniec: jak już będzie wszystko, po prostu trzeba będzie odpalić aplikację okienkową
+	W menu dostępne są elementy:
+	
+	\begin{itemize}
+		\item{Task}
+		
+			\begin{figure}[H]
+				\centering	
+ 				\includegraphics[scale=0.6]{images/task.png}
+ 				\caption{Opcje menu Task.}
+ 				\label{fig:task_menu}
+			\end{figure} 
+			
+			Opcja \textit{Load} umożliwia wskazanie pliku w którym znajdują się dane wejściowe zadania i załadowanie go do programu. Dane te powinny być w następującym formacie:
+
+	
+	\begin{verbatim}
+		[N - liczba piłek]
+		[Współrzędna X 1-szej piłki], [Współrzędna Y 1-szej piłki]
+		...
+		[Współrzędna X N-tej piłki], [Współrzędna Y N-tej piłki]
+		
+		[Współrzędna X 1-szego dołk], [Współrzędna Y 1-szego dołka]
+		...
+		[Współrzędna X N-tego dołka], [Współrzędna Y N-tego dołka]
+	\end{verbatim}	
+	
+		\textbf{Przykład:} 		
+		\begin{verbatim}
+		3
+		10,10
+		0, 5
+		20,50
+		50,20
+		90,30
+		5, 5
+	\end{verbatim}
+	
+	Opcja \textit{Save} umożliwia zapisanie obecnego zadania do wskazanego pliku. Zapis następuje w formacie wspomnianym przy poprzedniej opcji.	
+		
+
+		\item{Matching}
+		\begin{figure}[H]
+		\centering	
+ 			\includegraphics[scale=0.6]{images/matching.png}
+ 			\caption{Opcje menu Matching.}
+ 		\label{fig:menu_matching}
+	\end{figure}	
+	
+	Opcja \textit{Find} znajduje uderzenia pomiędzy dołkami i piłkami zdefiniowanymi w obecnym zadaniu. \\
+	Opcja \textit{Save} zapisuje rozwiązanie problemu (uderzenia), jeśli takie zostało już znalezione, do wskazanego pliku tekstowego. \\
+	Opcja \textit{Clear} czyści obecnie znalezione rozwiązanie.
+	\end{itemize}
+	
+	Punkty z zadania prezentowane są za pomocą listy znajdującej się w prawej części ekranu (\textit{List of points}). Na lisćie wyświetlany jest jednak tylko jeden typ punktow, który można wybrać za pomocą rozwijanej listy \texit{Points type}.
+	
+			\begin{figure}[H]
+		\centering
+		
+ 			\includegraphics[scale=0.6]{images/select.png}
+ 			\caption{Lista punktów.}
+ 		\label{fig:algorithm_diagram}
+	\end{figure}	
+		
+	Za pomocą przycisku \textit{Add point} możliwe jest dodanie nowych punktów do obecnie wybranej listy. Należy podać współrzędne nowego punkt w polach tekstowych znajdujących się obok przycisku i dodać punkt klikając przycisk. W przypadku, gdy punkt o podanych współrzędnych istnieje na którejś z list, zostanie wyświetlony komunikat o błędzie. 
+	
+		\begin{figure}[H]
+		\centering	
+ 			\includegraphics[scale=0.3]{images/add.png}
+ 			\caption{Dodawanie punktu.}
+ 		\label{fig:algorithm_diagram}
+	\end{figure}	
+
+Usuwanie punktu można wykonać poprzez kliknięcie na któryś z elementów listy prawym przyciskiem myszy. Zostanie wyświetlone menu kontekstowe z dostępną opcją \textit{Remove}. Jeżeli ta opcja zostanie wybrana, wskazany element zostanie usunięty z listy punktów.
+		
+		\begin{figure}[H]
+		\centering
+ 		\includegraphics[scale=0.3]{images/remove.png}
+ 			\caption{Usuwanie punktu.}
+ 		\label{fig:algorithm_diagram}
+	\end{figure}
 
 \end{document}
