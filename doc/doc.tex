@@ -476,10 +476,11 @@
 	Zapisywanie obecnego zadania wykonywane jest za pomocą klasy \textit{TextFileTaskSaver} implementującej interfejs \textit{TextFileTaskSaver}. Za pomocą metody \textit{Save}, któRa przyjmuje jako argument obiekt typu \textit{Task} zawierający dane zadania i zapisuje je w określonym formacie do pliku tekstowego.\\
 	Natomiast zapisywanie znalezionego rozwiązania realizuje klasa \textit{TextFileMatchingPrinter} implementująca interfejs \textit{IMatchingPrinter}. Zawiera on metodę \textit{Print}, która jako argument przyjmuje obiekt klasy \textit{Matching} i zapisuje w określonym formacie zawarte w nim uderzenia do pliku tekstowego.
 		
-	\subsection{Testy jednostkowe}
+	\subsection{Testy}
 	
-	W projekcie \textit{GolfAppTests} znajdują się test jednostkowe dotyczące projektu \textit{GolfApp}. Sprawdzają one poprawność logiki klas wykonujących algorytm oraz zachowanie w przypadku różnych (także błędnych) argumentów metod publicznych. \\
-	Test zostały wykonane przy wykorzystaniu frameworku do tesowanie \textit{xUnit}. Poniżej został załączony zrzut ekranu przedstwiające listę testów i status ich wykonania. 
+	W projekcie \textit{GolfAppTests} znajdują się test jednostkowe dotyczące projektu \textit{GolfApp}. Sprawdzają one poprawność logiki klas wykonujących algorytm oraz zachowanie w przypadku różnych (także błędnych) argumentów metod publicznych. \\~\\
+	Test zostały wykonane przy wykorzystaniu frameworku do tesowanie \textit{xUnit}. Poniżej został załączony zrzut ekranu przedstwiające listę testów i status ich wykonania. \\~\\
+	W celu zbadania poprawności zaimplementowanego algorytmu stworzyliśmy API do generowania zadań o zadanym rozmiarze. Na jego podstawie możemy przeprowadzić zarówno testy akceptacyjne oraz wydajnościowe. Testy przeprowadzono dla zadań o rozmiarach od 0 do 500. Znajdują się one w sekcji Corectness Tests. 
 	
 	\begin{figure}[H]
 		\centering
@@ -487,8 +488,24 @@
  			\caption{Testy jednostkowe.}
  		\label{fig:unit_tests}
 	\end{figure}	
+
+	W oparciu o wyniki pomiarów prędkości działania naszego algorytmu dla zadań o różnym rozmiarze stworzyliśmy wykres obrazujący zależność między rozmiarem zadania a średnim czasem wykonywania algorytmu mierzonym jako ilość ticków procesora.
 	
-	\subsection{Testy akceptacyjne i wydajnościowe}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/execution_time_chart.png}
+		\caption{Wykres zależności między rozmiarem zadania a średnim czasem wykonania algorytmu.}
+		\label{fig:execution_time_chart}
+	\end{figure}
+	
+	\section{Podział pracy}
+	
+	W dokumentacji projektowej, Mateusz Rymuszka wykonał opis algorytmu, dowiódł poprawności i złożoności obliczeniowej algorytmu oraz przygotował instrukcję użytkownika. Piotr Piwowarski opisał algorytm wraz z rozmiarem zadania, wykonał pseudokod algorytmu, opisał sposób prezentacji danych wejściowych i wyjściowych, rozwiązał przykładowe zadanie oraz wykonał dokuementację techniczną projektu.\\~\\
+	W projekcie programistycznym, Mateusz Rymuszka zaimplementował algorytm, zaprojektował struktury używane do obliczania programu, stworzył prototyp interfejsu graficznego oraz przygotował API do testów. Piotr Piwowarski zaimplementował obsługę wejścia i wyjścia w programie, znacząco udoskonalił interfejs graficzny oraz przygotował testy jednostkowe, wydajnościowe i akceptacyjne.
+	
+	\section{Wnioski}
+	
+	
 	
 	\pagebreak
 	
@@ -576,14 +593,5 @@
  		\caption{Usuwanie punktu.}
  		\label{fig:algorithm_diagram}
 	\end{figure}
-
-	\subsection{Podział pracy}
-	
-	W dokumentacji projektowej, Mateusz Rymuszka wykonał opis algorytmu, dowiódł poprawności i złożoności obliczeniowej algorytmu oraz przygotował instrukcję użytkownika. Piotr Piwowarski opisał algorytm wraz z rozmiarem zadania, wykonał pseudokod algorytmu, opisał sposób prezentacji danych wejściowych i wyjściowych, rozwiązał przykładowe zadanie oraz wykonał dokuementację techniczną projektu.\\~\\
-	W projekcie programistycznym, Mateusz Rymuszka zaimplementował algorytm, zaprojektował struktury używane do obliczania programu, stworzył prototyp interfejsu graficznego oraz przygotował API do testów. Piotr Piwowarski zaimplementował obsługę wejścia i wyjścia w programie, znacząco udoskonalił interfejs graficzny oraz przygotował testy jednostkowe, wydajnościowe i akceptacyjne.
-
-	\section{Wnioski}
-	
-	
 
 \end{document}
