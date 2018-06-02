@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using GolfApp.Algorithm;
 using GolfApp.Structures;
@@ -56,20 +57,27 @@ namespace GolfAppTests.CorectnessTests
             }
         }
 
+        private const int ComplexityConstant = 20;
+        private readonly Func<int, double> _compareFunction = n => ComplexityConstant * n * Math.Log(n);
+
         private void PrintChartToFile(List<Tuple<int, long>> executions)
         {
             var chart =
                  new System.Windows.Forms.DataVisualization.Charting.Chart {Size = new System.Drawing.Size(640, 320)};
-            chart.ChartAreas.Add("ChartArea1");
-            chart.Legends.Add("legend1");
+            chart.ChartAreas.Add("ChartArea");
+            chart.Legends.Add("legend");
 
             chart.Series.Add("executions");
-            chart.Series["executions"].LegendText = "ExecutionTime";
+            chart.Series.Add("compare");
+            chart.Series["executions"].LegendText = "Clock cycles";
             chart.Series["executions"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-
+            chart.Series["compare"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            chart.Series["compare"].BorderWidth = 3;
+            chart.Series["compare"].LegendText = "n^2 log(n)";
             foreach (var execution in executions)
             {
                 chart.Series["executions"].Points.AddXY(execution.Item1, execution.Item2);
+                chart.Series["compare"].Points.AddXY(execution.Item1, _compareFunction(execution.Item1));
             }
 
             chart.SaveImage(@"..\..\TestFiles\ExecutionTimeChart.png", System.Drawing.Imaging.ImageFormat.Png);
